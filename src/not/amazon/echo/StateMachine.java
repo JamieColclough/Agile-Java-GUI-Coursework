@@ -9,19 +9,22 @@ package not.amazon.echo;
 public class StateMachine {
 
     private State state;
+    private Button button;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode
      */
     public StateMachine() {
         this.state = new OnOff();
+        button = new Button();
+        button.addListener(event -> state.doAction(this));
+
     }
     
     /**
      * Method to change the machine's current state
      * 
      * @param state
-     * @version 1.1
      */
     public void setState(State state){
         this.state = state;
@@ -36,7 +39,11 @@ public class StateMachine {
     public String currentState(){
         return this.state.toString();
     }
-    
-        public static void main(String[] args) {
+
+    /**
+     * @return the button
+     */
+    public Button getButton() {
+        return button;
     }
 }

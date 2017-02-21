@@ -6,5 +6,10 @@ package not.amazon.echo;
  */
 public interface ButtonPressedListener {
 
+    /**
+     * Method called when the button is pressed.
+     *
+     * @param event Event of the button being pressed.
+     */
     void buttonPressed(ButtonPressedEvent event);
 }

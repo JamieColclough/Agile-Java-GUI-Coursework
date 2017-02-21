@@ -12,12 +12,20 @@ public class Button {
 
     private List<ButtonPressedListener> listeners = new ArrayList<>();
 
+    /**
+     * Fires the event when button is pressed.
+     */
     public void pressButton() {
         for (ButtonPressedListener listener : listeners) {
             listener.buttonPressed(new ButtonPressedEvent(this));
         }
     }
 
+    /**
+     * Registers the listeners to the button.
+     *
+     * @param listener Listener for the event.
+     */
     public void addListener(ButtonPressedListener listener) {
         listeners.add(listener);
 
