@@ -1,8 +1,9 @@
 package not.amazon.echo;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test class for the StateMachine Class
@@ -13,8 +14,8 @@ public class StateMachineTest {
     StateMachine testMachine;
     String expectedState;
     String testState;
-    
-    
+
+
     @Before
     public void setUp() {
         testMachine = new StateMachine();
