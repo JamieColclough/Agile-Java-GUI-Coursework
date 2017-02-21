@@ -1,4 +1,4 @@
-package notAmazonEcho;
+package not.amazon.echo;
 
 /**
  * State representing the phase in which the product responds to the user
