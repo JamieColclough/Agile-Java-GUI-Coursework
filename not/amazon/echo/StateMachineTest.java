@@ -1,4 +1,4 @@
-package notAmazonEcho;
+package not.amazon.echo;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
