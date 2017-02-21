@@ -1,4 +1,4 @@
-package notAmazonEcho;
+package not.amazon.echo;
 
 /**
  * Class used for identifying the current state of the program and calling
