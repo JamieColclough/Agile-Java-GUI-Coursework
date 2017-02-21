@@ -18,7 +18,6 @@ public class StateMachine {
         this.state = new OnOff();
         button = new Button();
         button.addListener(event -> state.doAction(this));
-
     }
     
     /**
