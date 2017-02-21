@@ -1,4 +1,4 @@
-package notAmazonEcho;
+package not.amazon.echo;
 
 /**
  * Basic interface for states contained within the state machine
