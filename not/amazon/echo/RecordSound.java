@@ -14,7 +14,7 @@ import javax.sound.sampled.TargetDataLine;
  * Record sound. Original by David Wakeling, 2017.
  * Derived by Adam Mitchell
  */
-class RecordSound {
+public class RecordSound {
     private static final String  FILENAME        = "output.wav";
     private static final int     TIMER           = 5;     /* secs */
     private static final int     SAMPLE_RATE     = 16000; /* MHz  */
