@@ -1,5 +1,7 @@
 package not.amazon.echo;
 
+import not.amazon.echo.gui.EchoInterface;
+
 /**
  * Class used for identifying the current state of the program and calling
  * various methods
@@ -10,6 +12,7 @@ public class StateMachine {
 
     private State state;
     private Button button;
+    private EchoInterface gui;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode
@@ -18,6 +21,8 @@ public class StateMachine {
         this.state = new OnOff();
         button = new Button();
         button.addListener(event -> state.onButtonPressed(this));
+
+        gui = new EchoInterface(button);
     }
     
     /**
@@ -27,6 +32,10 @@ public class StateMachine {
      */
     public void setState(State state){
         this.state = state;
+
+        //temporary debug
+        System.out.println(state);
+
         state.onEnterState(this); //Performs this when new state is set up
     }
     
@@ -38,12 +47,5 @@ public class StateMachine {
      */
     public String currentState(){
         return this.state.toString();
-    }
-
-    /**
-     * @return the button
-     */
-    public Button getButton() {
-        return button;
     }
 }

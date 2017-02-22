@@ -12,10 +12,6 @@ public class Main {
      */
     public static void main(String[] args) {
         StateMachine stateMachine = new StateMachine();
-        System.out.println(stateMachine.currentState());
-        stateMachine.getButton().pressButton();
-        System.out.println(stateMachine.currentState());
-
 
     }
 }
