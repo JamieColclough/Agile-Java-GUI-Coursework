@@ -11,6 +11,11 @@ public class Listening implements State{
     public String toString(){
         return "Listening";
     }
+
+    public Listening()
+    {
+        new Thread(() -> RecordSound.recordSound()).start();
+    }
     
 
     @Override

@@ -1,2 +1,4 @@
 *.iml
 .idea
+res/output.wav
+out/

@@ -10,7 +10,7 @@ import java.io.InputStream;
  * Derived by Adam Mitchell
  */
 public class RecordSound {
-    private static final String  FILENAME        = "output.wav";
+    private static final String  FILENAME        = "res/output.wav";
     private static final int     TIMER           = 5;     /* secs */
     private static final int     SAMPLE_RATE     = 16000; /* MHz  */
     private static final int     SAMPLE_SIZE     = 16;    /* bits */
@@ -88,11 +88,10 @@ public class RecordSound {
 
     /*
      * Record sound.
-     *
-    public static void main( String[] argv ) {
+     */
+    public static void recordSound() {
         AudioInputStream stm = setupStream();
         recordSound( FILENAME, readStream( stm ) );
     }
-    */
 }
 
