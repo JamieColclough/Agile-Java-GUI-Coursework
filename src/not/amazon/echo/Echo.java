@@ -1,6 +1,8 @@
 package not.amazon.echo;
 
 import not.amazon.echo.gui.EchoInterface;
+import not.amazon.echo.states.OnOff;
+import not.amazon.echo.states.State;
 
 /**
  * Class used for identifying the current state of the program and calling
@@ -9,7 +11,8 @@ import not.amazon.echo.gui.EchoInterface;
  * @author James Colclough
  * @version 1.2
  */
-public class StateMachine {
+public class Echo
+{
 
     public EchoInterface gui;
     private State state;
@@ -18,7 +21,8 @@ public class StateMachine {
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode
      */
-    public StateMachine() {
+    public Echo()
+    {
         this.state = new OnOff();
         button = new Button();
         button.addListener(event -> state.onButtonPressed(this));

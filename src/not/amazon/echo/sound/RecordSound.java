@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.sound;
 
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;

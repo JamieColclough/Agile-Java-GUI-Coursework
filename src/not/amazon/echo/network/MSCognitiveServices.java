@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import java.util.Date;
 
@@ -7,7 +7,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
  * Class containing common attributes for both SpeechRecognition and
- * Say related to Microsoft Cognitive Services.
+ * TextToSpeech related to Microsoft Cognitive Services.
  * <p>
  * Go to:
  * https://www.microsoft.com/cognitive-services/en-us/speech-api
@@ -18,7 +18,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
  * @author Jacques-Antoine Portal 2017
  */
 
-public class MicrosoftCognitiveServices {
+class MSCognitiveServices
+{
     final static String LANG = "en-US";
     final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
     final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";

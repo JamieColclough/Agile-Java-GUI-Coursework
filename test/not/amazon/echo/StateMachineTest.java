@@ -1,24 +1,25 @@
 package not.amazon.echo;
 
+import not.amazon.echo.states.Listening;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Test class for the StateMachine Class
+ * Test class for the Echo Class
  * @author James Colclough
  * @version 1.1
  */
 public class StateMachineTest {
-    StateMachine testMachine;
+    Echo testMachine;
     String expectedState;
     String testState;
 
 
     @Before
     public void setUp() {
-        testMachine = new StateMachine();
+        testMachine = new Echo();
     }
 
     /**

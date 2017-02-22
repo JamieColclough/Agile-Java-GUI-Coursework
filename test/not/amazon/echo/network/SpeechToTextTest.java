@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import org.junit.*;
 
@@ -13,9 +13,11 @@ import static org.junit.Assert.*;
  *
  * @author Jacques-Antoine Portal
  */
-public class SpeechRecognitionTest {
-    
-    public SpeechRecognitionTest() {
+public class SpeechToTextTest
+{
+
+    public SpeechToTextTest()
+    {
     }
     
     @BeforeClass

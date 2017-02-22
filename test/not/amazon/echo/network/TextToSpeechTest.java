@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package not.amazon.echo;
+package not.amazon.echo.network;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import static org.junit.Assert.*;
 
 /**
  *
  * @author jacques-antoine
  */
-public class SayTest {
-    
-    public SayTest() {
+public class TextToSpeechTest
+{
+
+    public TextToSpeechTest()
+    {
     }
     
     @BeforeClass
@@ -40,13 +39,13 @@ public class SayTest {
 
 
     /**
-     * Test of say method, of class Say.
+     * Test of say method, of class TextToSpeech.
      */
     @Test
     public void testSay() {
         System.out.println("say");
-        String text = "Hi, This is a test for the Say method";
-        Say.say(text);
+        String text = "Hi, This is a test for the TextToSpeech method";
+        TextToSpeech.say(text);
     }
     
 }

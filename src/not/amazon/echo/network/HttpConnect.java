@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -11,7 +11,8 @@ import java.net.URL;
  *
  * David Wakeling, 2017.
  */
-public class HttpConnect {
+class HttpConnect
+{
     final static int TIMEOUT = 5000; /* ms  */
     final static int BUFFSIZE = 4096; /* 4KB */
 
