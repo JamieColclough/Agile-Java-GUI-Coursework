@@ -15,6 +15,14 @@ import javax.swing.*;
 public class EchoInterface extends JFrame {
 	final OnButton btn1 = new OnButton();
 
+    final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
+    final ImageIcon iconEchoAnswer = new ImageIcon("iconEchoAnswer.jpg");
+    final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
+
+    final ImageIcon iconOnOffButton = new ImageIcon("res/onoff.jpg");
+
+    private JLabel label;
+
 	/**
 	 * Constructor that sets the image of the JFrame to that passed to the constructor and also
 	 * adds an on/off button to the JFrame.
@@ -23,7 +31,8 @@ public class EchoInterface extends JFrame {
 	 */
     public EchoInterface(Button button) {
         setTitle("Echo");
-        setContentPane(new JLabel(new ImageIcon("res/echoOff.jpg")));
+        label = new JLabel(iconEchoOff);
+        setContentPane(label);
         setLayout(null);
 
 		btn1.setBounds(290, 560, 20, 20);
@@ -41,12 +50,16 @@ public class EchoInterface extends JFrame {
         setVisible(true);
     }
 
+    public void setBackground(ImageIcon icon) {
+        label.setIcon(icon);
+    }
+
 	/**
 	 * Generates an on/off button for the JFrame and sets the image to that of an on/off image file.
 	 */
 	private class OnButton extends JButton {
 		OnButton() {
-            setIcon(new ImageIcon("res/onoff.jpg"));
+            setIcon(iconOnOffButton);
             setBorder(null);
 		}
 	}
