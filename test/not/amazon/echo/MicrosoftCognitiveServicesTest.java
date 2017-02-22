@@ -44,7 +44,7 @@ public class MicrosoftCognitiveServicesTest {
     public void testRenewAccessToken() {
         System.out.println("renewAccessToken");
         String key1 = "";
-        MicrosoftCognitiveServices.renewAccessToken(key1);
+        MicrosoftCognitiveServices.renewAccessToken();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -17,16 +17,11 @@ import java.util.Date;
  * @author Jacques-Antoine Portal 2017
  */
 
-public class Say extends MicrosoftCognitiveServices{
+public class Say {
   final static String GENDER = "Female";
   final static String OUTPUT = "output.wav";
   final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-
-  public Say(){
-      lastTime = 0;
-  }
-  
    /*
     * Synthesize speech.
     */
@@ -46,7 +41,7 @@ public class Say extends MicrosoftCognitiveServices{
      final String[][] headers
        = { { "Content-Type"             , "application/ssml+xml"        }
          , { "Content-Length"           , String.valueOf( body.length ) }
-         , { "Authorization"            , "Bearer " + token             }
+         , { "Authorization"            , "Bearer " + MicrosoftCognitiveServices.getAccessToken() }
          , { "X-Microsoft-OutputFormat" , format                        }
          };
      byte[] response = HttpConnect.httpConnect( method, url, headers, body );
@@ -75,12 +70,8 @@ public class Say extends MicrosoftCognitiveServices{
     * Convert text to speech.
     */
    public static void say( String text ) {
-    long now = new Date().getTime();
-    long duration = now - lastTime;
-    if (duration > MAX_DURATION){
-           renewAccessToken( KEY1 );             //renew from MicrosoftCognitiveServices
-    }
-     final byte[] speech = synthesizeSpeech( text, LANG, GENDER, FORMAT );
+
+     final byte[] speech = synthesizeSpeech( text, MicrosoftCognitiveServices.LANG, GENDER, FORMAT );
      writeData( speech, OUTPUT );
    }
  }
