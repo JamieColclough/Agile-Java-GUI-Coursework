@@ -19,8 +19,11 @@ public class Responding implements State{
 
     @Override
     public void onEnterState(StateMachine stateMachine) {
-        //Sound played and response printed here
+
         stateMachine.gui.setBackground(stateMachine.gui.iconEchoAnswer);
 
+        String text = SpeechRecognition.speechRecognition("res/output.wav");
+        System.out.println(text);
+        stateMachine.setState(new OnOff());
     }
 }

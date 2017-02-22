@@ -7,6 +7,9 @@ package not.amazon.echo;
  * @version 1.2
  */
 public class Listening implements State{
+
+    private Thread recordThread = null;
+
     @Override
     public String toString(){
         return "Listening";
@@ -15,8 +18,10 @@ public class Listening implements State{
     @Override
     public void onButtonPressed(StateMachine stateMachine){
         //Code involving listening for speech
-        
-        stateMachine.setState(new OnOff());
+
+        //if(recordThread != null) recordThread.interrupt();
+
+        //stateMachine.setState(new OnOff());
     }
 
     @Override
@@ -24,7 +29,10 @@ public class Listening implements State{
 
         stateMachine.gui.setBackground(stateMachine.gui.iconEcho);
 
-        new Thread(() -> RecordSound.recordSound()).start(); //starts recording sound during construction
+        new Thread(() -> {
+            RecordSound.recordSound();
+            stateMachine.setState(new Responding());
+        }).start();
 
     }
 }
