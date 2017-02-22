@@ -38,18 +38,6 @@ public class SayTest {
     }
 
 
-    /**
-     * Test of writeData method, of class Say.
-     */
-    @Test
-    public void testWriteData() {
-        System.out.println("writeData");
-        byte[] buffer = null;
-        String name = "";
-        Say.writeData(buffer, name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of say method, of class Say.
@@ -59,8 +47,6 @@ public class SayTest {
         System.out.println("say");
         String text = "";
         Say.say(text);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

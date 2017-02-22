@@ -70,7 +70,6 @@ public class Say {
     * Convert text to speech.
     */
    public static void say( String text ) {
-
      final byte[] speech = synthesizeSpeech( text, MicrosoftCognitiveServices.LANG, GENDER, FORMAT );
      writeData( speech, OUTPUT );
    }

@@ -44,7 +44,18 @@ public class SpeechRecognition {
            , { "Authorization"  , "Bearer " + MicrosoftCognitiveServices.getAccessToken()              }
            };
        byte[] response = HttpConnect.httpConnect( method, url, headers, body );
-       return new String( response );
+       String sResponse = new String( response );
+       int i;
+       if ( sResponse.contains("\"name\":\"")) {
+           i = sResponse.lastIndexOf("\"name\":\"") + 9 ;
+           while (sResponse.charAt(i) != '"') {
+               i = i + 1;
+           }
+       }else{
+           System.out.println( "speech not recognised" ); System.exit( 1 ); return null;
+       }
+       String toReturn = sResponse.substring(sResponse.lastIndexOf("\"name\":\"")+8, i);
+       return toReturn;
      }
 
      /*
