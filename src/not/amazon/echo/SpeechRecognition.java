@@ -44,17 +44,19 @@ public class SpeechRecognition {
            , { "Authorization"  , "Bearer " + MicrosoftCognitiveServices.getAccessToken()              }
            };
        byte[] response = HttpConnect.httpConnect( method, url, headers, body );
+       //response includes all the JSON context, for this application we only need the actual thing that was said,
+       // the following part of this method will find, and return the useful bit of response.
        String sResponse = new String( response );
        int i;
        if ( sResponse.contains("\"name\":\"")) {
-           i = sResponse.lastIndexOf("\"name\":\"") + 9 ;
+           i = sResponse.indexOf("\"name\":\"") + 9 ;       //+9 to skip all the characters in the string
            while (sResponse.charAt(i) != '"') {
                i = i + 1;
            }
        }else{
-           System.out.println( "speech not recognised" ); System.exit( 1 ); return null;
+           return null;
        }
-       String toReturn = sResponse.substring(sResponse.lastIndexOf("\"name\":\"")+8, i);
+       String toReturn = sResponse.substring(sResponse.indexOf("\"name\":\"")+8, i);
        return toReturn;
      }
 
@@ -80,9 +82,7 @@ public class SpeechRecognition {
       */
      public static String speechRecognition( String fileName ) {
        final byte[] speech = readData( fileName );                          //reads a .wav (sound) file
-       System.out.println("read the file");
        final String text   = recognizeSpeech( speech );     //converts the speech into txt
-       System.out.println("this is the text: ");
        return text;                                                   //prints it
      }
    }

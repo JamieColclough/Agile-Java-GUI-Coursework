@@ -19,7 +19,7 @@ import java.util.Date;
 
 public class Say {
   final static String GENDER = "Female";
-  final static String OUTPUT = "output.wav";
+  final static String OUTPUT = "res/textToSpeech.wav";
   final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
    /*

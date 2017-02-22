@@ -43,10 +43,7 @@ public class SpeechRecognitionTest {
         System.out.println("speechToText");
         String fileName = "res/eastwood.wav";
         String exResult = "Do I feel lucky well do you punk?";
-        System.out.println(MicrosoftCognitiveServices.getAccessToken());
-        System.out.println(exResult);
         String text = SpeechRecognition.speechRecognition(fileName);
-        System.out.println(text);
         assertEquals(text, exResult);
     }
     

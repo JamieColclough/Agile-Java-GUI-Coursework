@@ -45,7 +45,7 @@ public class SayTest {
     @Test
     public void testSay() {
         System.out.println("say");
-        String text = "";
+        String text = "Hi, This is a test for the Say method";
         Say.say(text);
     }
     
