@@ -18,13 +18,9 @@ import java.util.Date;
  * @author Jacques-Antoine Portal 2017
  */
 
-public class SpeechRecognition extends MicrosoftCognitiveServices{
+public class SpeechRecognition {
 //all attributes are enherited from Microsoft Cognitive Services.
 
-    public SpeechRecognition(){
-        lastTime = 0;
-    }
-    
      /*
       * Recognize speech.
       */
@@ -36,18 +32,32 @@ public class SpeechRecognition extends MicrosoftCognitiveServices{
            + "&" + "format"     + "=" + "json"
            + "&" + "device.os"  + "=" + "wp7"
            + "&" + "scenarios"  + "=" + "smd"
-           + "&" + "locale"     + "=" + LANG
-           + "&" + "appid"      + "=" + appID
+           + "&" + "locale"     + "=" + MicrosoftCognitiveServices.LANG
+           + "&" + "appid"      + "=" + MicrosoftCognitiveServices.appID
            + "&" + "instanceid" + "=" + UUID.randomUUID().toString()
            + "&" + "requestid"  + "=" + UUID.randomUUID().toString()
+           + "&" + "result.profanity" + "=" + "0"
            );
        final String[][] headers
          = { { "Content-Type"   , "audio/wav; samplerate=16000"  }
            , { "Content-Length" , String.valueOf( body.length )  }
-           , { "Authorization"  , "Bearer " + token              }
+           , { "Authorization"  , "Bearer " + MicrosoftCognitiveServices.getAccessToken()              }
            };
        byte[] response = HttpConnect.httpConnect( method, url, headers, body );
-       return new String( response );
+       //response includes all the JSON context, for this application we only need the actual thing that was said,
+       // the following part of this method will find, and return the useful bit of response.
+       String sResponse = new String( response );
+       int i;
+       if ( sResponse.contains("\"name\":\"")) {
+           i = sResponse.indexOf("\"name\":\"") + 9 ;       //+9 to skip all the characters in the string
+           while (sResponse.charAt(i) != '"') {
+               i = i + 1;
+           }
+       }else{
+           return null;
+       }
+       String toReturn = sResponse.substring(sResponse.indexOf("\"name\":\"")+8, i);
+       return toReturn;
      }
 
      /*
@@ -71,15 +81,6 @@ public class SpeechRecognition extends MicrosoftCognitiveServices{
       * Convert speech to text.
       */
      public static String speechRecognition( String fileName ) {
-       if(lastTime == 0){
-           lastTime = new Date().getTime();
-           renewAccessToken( KEY1 );
-       }
-       long now = new Date().getTime();
-       long duration = now - lastTime;
-       if (duration > MAX_DURATION){
-           renewAccessToken( KEY1 );             //renew from MicrosoftCognitiveServices
-       }
        final byte[] speech = readData( fileName );                          //reads a .wav (sound) file
        final String text   = recognizeSpeech( speech );     //converts the speech into txt
        return text;                                                   //prints it

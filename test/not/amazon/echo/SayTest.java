@@ -37,47 +37,7 @@ public class SayTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of renewAccessToken method, of class Say.
-     */
-    @Test
-    public void testRenewAccessToken() {
-        System.out.println("renewAccessToken");
-        String key1 = "";
-        Say.renewAccessToken(key1);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of synthesizeSpeech method, of class Say.
-     */
-    @Test
-    public void testSynthesizeSpeech() {
-        System.out.println("synthesizeSpeech");
-        String text = "";
-        String lang = "";
-        String gender = "";
-        String format = "";
-        byte[] expResult = null;
-        byte[] result = Say.synthesizeSpeech(text, lang, gender, format);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of writeData method, of class Say.
-     */
-    @Test
-    public void testWriteData() {
-        System.out.println("writeData");
-        byte[] buffer = null;
-        String name = "";
-        Say.writeData(buffer, name);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of say method, of class Say.
@@ -85,10 +45,8 @@ public class SayTest {
     @Test
     public void testSay() {
         System.out.println("say");
-        String text = "";
+        String text = "Hi, This is a test for the Say method";
         Say.say(text);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
