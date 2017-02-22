@@ -19,8 +19,6 @@ public class EchoInterface extends JFrame {
     final ImageIcon iconEchoAnswer = new ImageIcon("iconEchoAnswer.jpg");
     final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
 
-    final ImageIcon iconOnOffButton = new ImageIcon("res/onoff.jpg");
-
     private JLabel label;
 
 	/**
@@ -58,7 +56,9 @@ public class EchoInterface extends JFrame {
 	 * Generates an on/off button for the JFrame and sets the image to that of an on/off image file.
 	 */
 	private class OnButton extends JButton {
-		OnButton() {
+        final ImageIcon iconOnOffButton = new ImageIcon("res/onoff.jpg");
+
+        OnButton() {
             setIcon(iconOnOffButton);
             setBorder(null);
 		}
