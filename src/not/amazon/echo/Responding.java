@@ -3,19 +3,20 @@ package not.amazon.echo;
 /**
  * State representing the phase in which the product responds to the user
  * performs response then returns to the listening state
+ *
  * @author James Colclough
  * @version 1.2
  */
-public class Responding implements State{
+public class Responding implements State {
     @Override
-    public String toString(){
+    public String toString() {
         return "Responding";
     }
-    
+
     @Override
-    public void onButtonPressed(StateMachine stateMachine){
+    public void onButtonPressed(StateMachine stateMachine) {
         //Can't press the button here, method performs no action        
-    }   
+    }
 
     @Override
     public void onEnterState(StateMachine stateMachine) {

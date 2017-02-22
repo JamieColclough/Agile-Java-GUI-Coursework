@@ -19,20 +19,20 @@ public class EchoInterface extends JFrame {
     final OnButton btn1 = new OnButton();
     private JLabel label;
 
-	/**
-	 * Constructor that sets the image of the JFrame to that passed to the constructor and also
-	 * adds an on/off button to the JFrame.
-	 *
-	 * @param img the name of the image file to be used in the JFrame
-	 */
+    /**
+     * Constructor that sets the image of the JFrame to that passed to the constructor and also
+     * adds an on/off button to the JFrame.
+     *
+     * @param img the name of the image file to be used in the JFrame
+     */
     public EchoInterface(Button button) {
         setTitle("Echo");
         label = new JLabel(iconEchoOff);
         setContentPane(label);
         setLayout(null);
 
-		btn1.setBounds(290, 560, 20, 20);
-		add(btn1);
+        btn1.setBounds(290, 560, 20, 20);
+        add(btn1);
 
         //When the button is pressed, fire our Button event
         btn1.addActionListener(e -> button.pressButton());
@@ -50,16 +50,16 @@ public class EchoInterface extends JFrame {
         label.setIcon(icon);
     }
 
-	/**
-	 * Generates an on/off button for the JFrame and sets the image to that of an on/off image file.
-	 */
-	private class OnButton extends JButton {
+    /**
+     * Generates an on/off button for the JFrame and sets the image to that of an on/off image file.
+     */
+    private class OnButton extends JButton {
         final ImageIcon iconOnOffButton = new ImageIcon("res/onoff.jpg");
 
         OnButton() {
             setIcon(iconOnOffButton);
             setBorder(null);
-		}
-	}
+        }
+    }
 
 }
