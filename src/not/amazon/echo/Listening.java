@@ -21,7 +21,9 @@ public class Listening implements State{
 
     @Override
     public void onEnterState(StateMachine stateMachine){
-        
+
+        stateMachine.gui.setBackground(stateMachine.gui.iconEcho);
+
         new Thread(() -> RecordSound.recordSound()).start(); //starts recording sound during construction
 
     }

@@ -20,5 +20,7 @@ public class Responding implements State{
     @Override
     public void onEnterState(StateMachine stateMachine) {
         //Sound played and response printed here
+        stateMachine.gui.setBackground(stateMachine.gui.iconEchoAnswer);
+
     }
 }

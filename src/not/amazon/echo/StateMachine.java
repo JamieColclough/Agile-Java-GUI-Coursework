@@ -10,9 +10,9 @@ import not.amazon.echo.gui.EchoInterface;
  */
 public class StateMachine {
 
+    public EchoInterface gui;
     private State state;
     private Button button;
-    private EchoInterface gui;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode

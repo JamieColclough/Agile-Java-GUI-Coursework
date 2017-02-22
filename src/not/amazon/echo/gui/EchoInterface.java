@@ -13,12 +13,10 @@ import javax.swing.*;
  */
 
 public class EchoInterface extends JFrame {
-	final OnButton btn1 = new OnButton();
-
-    final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
-    final ImageIcon iconEchoAnswer = new ImageIcon("iconEchoAnswer.jpg");
-    final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
-
+    public final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
+    public final ImageIcon iconEchoAnswer = new ImageIcon("iconEchoAnswer.jpg");
+    public final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
+    final OnButton btn1 = new OnButton();
     private JLabel label;
 
 	/**
