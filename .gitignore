@@ -2,3 +2,6 @@
 .idea
 res/output.wav
 out/
+/nbproject/
+build.xml
+manifest.mf
