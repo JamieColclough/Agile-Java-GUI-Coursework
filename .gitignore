@@ -5,3 +5,5 @@ out/
 /nbproject/
 build.xml
 manifest.mf
+res/textToSpeech.wav
+output.wav
