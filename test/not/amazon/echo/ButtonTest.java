@@ -49,8 +49,6 @@ public class ButtonTest {
             if (event.getSource().equals(button)) {
                 pressed = true;
             }
-
-
         }
     }
 }
