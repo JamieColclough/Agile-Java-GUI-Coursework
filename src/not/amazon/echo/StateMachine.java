@@ -33,9 +33,6 @@ public class StateMachine {
     public void setState(State state){
         this.state = state;
 
-        //temporary debug
-        System.out.println(state);
-
         state.onEnterState(this); //Performs this when new state is set up
     }
     
