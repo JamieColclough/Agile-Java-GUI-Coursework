@@ -4,7 +4,7 @@ package not.amazon.echo;
  * State representing the listening phase of the product
  * waiting until sound is detected
  * @author James Colclough
- * @version 1.1
+ * @version 1.2
  */
 public class Listening implements State{
     @Override
@@ -12,27 +12,17 @@ public class Listening implements State{
         return "Listening";
     }
 
-    public Listening()
-    {
-        new Thread(() -> RecordSound.recordSound()).start();
-    }
-    
-
     @Override
-    public void doAction(StateMachine stateMachine){
+    public void onButtonPressed(StateMachine stateMachine){
         //Code involving listening for speech
         
-        stateMachine.setState(new Responding());
-    }
-    
-    /**
-     * Additional Method in case the product is turned off before doAction() is called
-     * 
-     * @param stateMachine
-     */
-    public void turnOff(StateMachine stateMachine){
-        //Code involving turning off- i.e. turn off sound, light change
-        
         stateMachine.setState(new OnOff());
+    }
+
+    @Override
+    public void onEnterState(StateMachine stateMachine){
+        
+        new Thread(() -> RecordSound.recordSound()).start(); //starts recording sound during construction
+
     }
 }
