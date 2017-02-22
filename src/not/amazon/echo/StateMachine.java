@@ -4,7 +4,7 @@ package not.amazon.echo;
  * Class used for identifying the current state of the program and calling
  * various methods
  * @author James Colclough
- * @version 1.1
+ * @version 1.2
  */
 public class StateMachine {
 
@@ -17,7 +17,7 @@ public class StateMachine {
     public StateMachine() {
         this.state = new OnOff();
         button = new Button();
-        button.addListener(event -> state.doAction(this));
+        button.addListener(event -> state.onButtonPressed(this));
     }
     
     /**
@@ -27,6 +27,7 @@ public class StateMachine {
      */
     public void setState(State state){
         this.state = state;
+        state.onEnterState(this); //Performs this when new state is set up
     }
     
     /**
