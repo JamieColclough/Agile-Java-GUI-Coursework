@@ -20,5 +20,7 @@ public class OnOff implements State{
     @Override
     public void onEnterState(StateMachine stateMachine) {
         //Code for lights changing etc here
+        stateMachine.gui.setBackground(stateMachine.gui.iconEchoOff);
+
     }
 }
