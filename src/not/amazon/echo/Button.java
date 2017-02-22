@@ -5,7 +5,6 @@ import java.util.List;
 
 /**
  * Created by AliciaDaurignac on 15/02/2017.
- * <p>
  * Button holds a list of listeners that will be notified when the button is pressed.
  */
 public class Button {
@@ -17,7 +16,7 @@ public class Button {
      */
     public void pressButton() {
         for (ButtonPressedListener listener : listeners) {
-            listener.buttonPressed(new ButtonPressedEvent(this));
+            listener.buttonPressed(new ButtonPressedEvent(this)); //for every listener fire the event
         }
     }
 
