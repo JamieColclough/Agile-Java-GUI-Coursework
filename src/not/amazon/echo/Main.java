@@ -11,7 +11,7 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        StateMachine stateMachine = new StateMachine();
-
+        Echo echo = new Echo();
+                                                
     }
 }

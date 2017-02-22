@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -31,8 +31,8 @@ public class SpeechRecognition {
                 + "&" + "format" + "=" + "json"
                 + "&" + "device.os" + "=" + "wp7"
                 + "&" + "scenarios" + "=" + "smd"
-                + "&" + "locale" + "=" + MicrosoftCognitiveServices.LANG
-                + "&" + "appid" + "=" + MicrosoftCognitiveServices.appID
+                + "&" + "locale" + "=" + MSCognitiveServices.LANG
+                + "&" + "appid" + "=" + MSCognitiveServices.appID
                 + "&" + "instanceid" + "=" + UUID.randomUUID().toString()
                 + "&" + "requestid" + "=" + UUID.randomUUID().toString()
                 + "&" + "result.profanity" + "=" + "0"
@@ -40,7 +40,7 @@ public class SpeechRecognition {
         final String[][] headers
                 = {{"Content-Type", "audio/wav; samplerate=16000"}
                 , {"Content-Length", String.valueOf(body.length)}
-                , {"Authorization", "Bearer " + MicrosoftCognitiveServices.getAccessToken()}
+                , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
         };
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
         //response includes all the JSON context, for this application we only need the actual thing that was said,

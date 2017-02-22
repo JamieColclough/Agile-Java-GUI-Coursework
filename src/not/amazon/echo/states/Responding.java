@@ -1,5 +1,7 @@
-package not.amazon.echo;
+package not.amazon.echo.states;
 
+import not.amazon.echo.Echo;
+import not.amazon.echo.network.SpeechRecognition;
 /**
  * State representing the phase in which the product responds to the user
  * performs response then returns to the listening state
@@ -7,24 +9,27 @@ package not.amazon.echo;
  * @author James Colclough
  * @version 1.2
  */
-public class Responding implements State {
+public class Responding implements State
+{
     @Override
     public String toString() {
         return "Responding";
     }
 
     @Override
-    public void onButtonPressed(StateMachine stateMachine) {
+    public void onButtonPressed(Echo echo)
+    {
         //Can't press the button here, method performs no action        
     }
 
     @Override
-    public void onEnterState(StateMachine stateMachine) {
+    public void onEnterState(Echo echo)
+    {
 
-        stateMachine.gui.setBackground(stateMachine.gui.iconEchoAnswer);
+        echo.gui.setBackground(echo.gui.iconEchoAnswer);
 
         String text = SpeechRecognition.speechRecognition("res/output.wav");
         System.out.println(text);
-        stateMachine.setState(new OnOff());
+        echo.setState(new OnOff());
     }
 }

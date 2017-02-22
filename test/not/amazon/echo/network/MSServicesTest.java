@@ -3,22 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package not.amazon.echo;
+package not.amazon.echo.network;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+
 import static org.junit.Assert.*;
 
 /**
  *
  * @author jacques-antoine
  */
-public class MicrosoftCognitiveServicesTest {
-    
-    public MicrosoftCognitiveServicesTest() {
+public class MSServicesTest
+{
+
+    public MSServicesTest()
+    {
     }
     
     @BeforeClass
@@ -38,13 +37,13 @@ public class MicrosoftCognitiveServicesTest {
     }
 
     /**
-     * Test of renewAccessToken method, of class MicrosoftCognitiveServices.
+     * Test of renewAccessToken method, of class MSCognitiveServices.
      */
     @Test
     public void testRenewAccessToken() {
         System.out.println("renewAccessToken");
         String key1 = "";
-        MicrosoftCognitiveServices.renewAccessToken();
+        MSCognitiveServices.renewAccessToken();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

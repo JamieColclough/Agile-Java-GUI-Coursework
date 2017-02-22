@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -16,7 +16,8 @@ import java.io.FileOutputStream;
  * @author Jacques-Antoine Portal 2017
  */
 
-public class Say {
+public class TextToSpeech
+{
     final static String GENDER = "Female";
     final static String OUTPUT = "res/textToSpeech.wav";
     final static String FORMAT = "riff-16khz-16bit-mono-pcm";
@@ -40,7 +41,7 @@ public class Say {
         final String[][] headers
                 = {{"Content-Type", "application/ssml+xml"}
                 , {"Content-Length", String.valueOf(body.length)}
-                , {"Authorization", "Bearer " + MicrosoftCognitiveServices.getAccessToken()}
+                , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
                 , {"X-Microsoft-OutputFormat", format}
         };
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
@@ -71,7 +72,7 @@ public class Say {
      * Convert text to speech.
      */
     public static void say(String text) {
-        final byte[] speech = synthesizeSpeech(text, MicrosoftCognitiveServices.LANG, GENDER, FORMAT);
+        final byte[] speech = synthesizeSpeech(text, MSCognitiveServices.LANG, GENDER, FORMAT);
         writeData(speech, OUTPUT);
     }
 }

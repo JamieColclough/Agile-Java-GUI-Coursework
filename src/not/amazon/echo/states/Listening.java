@@ -1,5 +1,7 @@
-package not.amazon.echo;
+package not.amazon.echo.states;
 
+import not.amazon.echo.Echo;
+import not.amazon.echo.sound.RecordSound;
 /**
  * State representing the listening phase of the product
  * waiting until sound is detected
@@ -7,32 +9,33 @@ package not.amazon.echo;
  * @author James Colclough
  * @version 1.2
  */
-public class Listening implements State {
-
-    private Thread recordThread = null;
-
+public class Listening implements State
+{
+    
     @Override
     public String toString() {
         return "Listening";
     }
 
     @Override
-    public void onButtonPressed(StateMachine stateMachine) {
+    public void onButtonPressed(Echo echo)
+    {
         //Code involving listening for speech
 
         //if(recordThread != null) recordThread.interrupt();
 
-        //stateMachine.setState(new OnOff());
+        //echo.setState(new OnOff());
     }
 
     @Override
-    public void onEnterState(StateMachine stateMachine) {
+    public void onEnterState(Echo echo)
+    {
 
-        stateMachine.gui.setBackground(stateMachine.gui.iconEcho);
+        echo.gui.setBackground(echo.gui.iconEcho);
 
         new Thread(() -> {
             RecordSound.recordSound();
-            stateMachine.setState(new Responding());
+            echo.setState(new Responding());
         }).start();
 
     }

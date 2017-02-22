@@ -1,5 +1,6 @@
-package not.amazon.echo;
+package not.amazon.echo.states;
 
+import not.amazon.echo.Echo;
 /**
  * State representing the product in its On/Off phase
  * waiting for the power button to be pressed
@@ -7,21 +8,24 @@ package not.amazon.echo;
  * @author James Colclough
  * @version 1.2
  */
-public class OnOff implements State {
+public class OnOff implements State
+{
     @Override
     public String toString() {
         return "On/Off";
     }
 
     @Override
-    public void onButtonPressed(StateMachine stateMachine) {
-        stateMachine.setState(new Listening());
+    public void onButtonPressed(Echo echo)
+    {
+        echo.setState(new Listening());
     }
 
     @Override
-    public void onEnterState(StateMachine stateMachine) {
+    public void onEnterState(Echo echo)
+    {
         //Code for lights changing etc here
-        stateMachine.gui.setBackground(stateMachine.gui.iconEchoOff);
+        echo.gui.setBackground(echo.gui.iconEchoOff);
 
     }
 }
