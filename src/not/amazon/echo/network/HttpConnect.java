@@ -15,8 +15,8 @@ import java.net.URL;
  */
 class HttpConnect
 {
-    final static int TIMEOUT = 5000; /* ms  */
-    final static int BUFFSIZE = 4096; /* 4KB */
+    private final static int TIMEOUT = 5000; /* ms  */
+    private final static int BUFFSIZE = 4096; /* 4KB */
 
     public static byte[] httpConnect
             (String method
@@ -37,8 +37,8 @@ class HttpConnect
             conn.setDoOutput(true);
             conn.setConnectTimeout(TIMEOUT);
             conn.setReadTimeout(TIMEOUT);
-            for (int i = 0; i < headers.length; i++) {
-                conn.setRequestProperty(headers[i][0], headers[i][1]);
+            for (String[] header : headers) {
+                conn.setRequestProperty(header[0], header[1]);
             }
             conn.connect();
 

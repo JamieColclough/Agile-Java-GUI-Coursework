@@ -1,7 +1,7 @@
 package not.amazon.echo;
 
 /**
- * Created by adammitchell on 23/02/2017.
+ * @author Adam Mitchell
  */
 public class ErrorHandler {
     public static void log(Throwable throwable) {

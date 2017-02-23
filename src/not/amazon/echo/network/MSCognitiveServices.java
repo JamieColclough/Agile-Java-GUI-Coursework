@@ -21,11 +21,11 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 class MSCognitiveServices
 {
     final static String LANG = "en-US";
-    final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
-    final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
-    static long lastTime;
-    static String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
-    static String token = null;
+    static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
+    private final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
+    private final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
+    private static long lastTime;
+    private static String token = null;
   
    /*
     *final static String KEY2 = "228990e067f147bf842b70034065efc8";

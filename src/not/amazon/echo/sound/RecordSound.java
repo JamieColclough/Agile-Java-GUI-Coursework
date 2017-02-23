@@ -22,7 +22,7 @@ public class RecordSound {
     /*
      * Set up stream.
      */
-    public static AudioInputStream setupStream() {
+    private static AudioInputStream setupStream() {
         try {
             AudioFormat af =
                     new AudioFormat(SAMPLE_RATE
@@ -47,7 +47,7 @@ public class RecordSound {
     /*
      * Read stream.
      */
-    public static ByteArrayOutputStream readStream(AudioInputStream stm) {
+    private static ByteArrayOutputStream readStream(AudioInputStream stm) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
@@ -74,7 +74,7 @@ public class RecordSound {
     /*
      * Record sound.
      */
-    public static void recordSound(String name, ByteArrayOutputStream bos) {
+    private static void recordSound(String name, ByteArrayOutputStream bos) {
         try {
             AudioFormat af =
                     new AudioFormat(SAMPLE_RATE

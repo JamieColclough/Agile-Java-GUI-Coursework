@@ -16,14 +16,14 @@ public class EchoInterface extends JFrame {
     public final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
     public final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
     public final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
-    final OnButton btn1 = new OnButton();
-    private JLabel label;
+    private final OnButton btn1 = new OnButton();
+    private final JLabel label;
 
     /**
      * Constructor that sets the image of the JFrame to that passed to the constructor and also
      * adds an on/off button to the JFrame.
      *
-     * @param img the name of the image file to be used in the JFrame
+     * @param button The internal event handler for this interface
      */
     public EchoInterface(Button button) {
         setTitle("Echo");

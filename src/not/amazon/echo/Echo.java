@@ -14,7 +14,7 @@ import not.amazon.echo.states.State;
 public class Echo
 {
 
-    public EchoInterface gui;
+    public final EchoInterface gui;
     private State state;
 
     /**
@@ -32,7 +32,7 @@ public class Echo
     /**
      * Method to change the machine's current state
      *
-     * @param state
+     * @param state Instance of the new state
      */
     public void setState(State state) {
         this.state = state;

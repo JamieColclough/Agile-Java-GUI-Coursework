@@ -25,7 +25,7 @@ public class SpeechToText {
     /*
      * Recognize speech.
      */
-    static String recognizeSpeech(byte[] body) {
+    private static String recognizeSpeech(byte[] body) {
         final String method = "POST";
         final String url
                 = ("https://speech.platform.bing.com/recognize"
@@ -63,7 +63,7 @@ public class SpeechToText {
     /*
      * Read data from file.
      */
-    static byte[] readData(String name) {
+    private static byte[] readData(String name) {
         try {
             File file = new File(name);
             FileInputStream fis = new FileInputStream(file);

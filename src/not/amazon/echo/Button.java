@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Button {
 
-    private List<ButtonPressedListener> listeners = new ArrayList<>();
+    private final List<ButtonPressedListener> listeners = new ArrayList<>();
 
     /**
      * Fires the event when button is pressed.

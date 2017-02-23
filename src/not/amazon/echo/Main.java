@@ -8,10 +8,9 @@ public class Main {
     /**
      * Point of entry.
      *
-     * @param args
+     * @param args Program arguments
      */
     public static void main(String[] args) {
-        Echo echo = new Echo();
-                                                
+        new Echo();
     }
 }

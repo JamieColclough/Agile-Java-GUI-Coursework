@@ -20,14 +20,14 @@ import java.io.FileOutputStream;
 
 public class TextToSpeech
 {
-    final static String GENDER = "Female";
-    final static String OUTPUT = "res/textToSpeech.wav";
-    final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+    private final static String GENDER = "Female";
+    private final static String OUTPUT = "res/textToSpeech.wav";
+    private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
     /*
      * Synthesize speech.
      */
-    static byte[] synthesizeSpeech(String text
+    private static byte[] synthesizeSpeech(String text
             , String lang, String gender
             , String format) {
         final String method = "POST";
@@ -53,7 +53,7 @@ public class TextToSpeech
     /*
      * Write data to file.
      */
-    static void writeData(byte[] buffer, String name) {
+    private static void writeData(byte[] buffer, String name) {
         try {
             File file = new File(name);
             FileOutputStream fos = new FileOutputStream(file);

@@ -12,14 +12,14 @@ public interface State {
     /**
      * Method that performs a specific action depending on the implementation when the button is pressed
      *
-     * @param echo
+     * @param echo The context of the state.
      */
     void onButtonPressed(Echo echo);
 
     /**
      * Method that is called when the new state has been set up, will vary on implementation
      *
-     * @param echo
+     * @param echo The context of the state.
      */
     void onEnterState(Echo echo);
 }
