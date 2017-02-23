@@ -1,5 +1,7 @@
 package not.amazon.echo.network;
 
+import not.amazon.echo.ErrorHandler;
+
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,12 +14,12 @@ import java.util.UUID;
  * https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/overview
  * for more information.
  * <p>
- * Inspired from David Wakeling's SpeechToText code
+ * Inspired from David Wakeling's SpeechRecognition code
  *
  * @author Jacques-Antoine Portal 2017
  */
 
-public class SpeechRecognition {
+public class SpeechToText {
 //all attributes are enherited from Microsoft Cognitive Services.
 
     /*
@@ -55,8 +57,7 @@ public class SpeechRecognition {
         } else {
             return null;
         }
-        String toReturn = sResponse.substring(sResponse.indexOf("\"name\":\"") + 8, i);
-        return toReturn;
+        return sResponse.substring(sResponse.indexOf("\"name\":\"") + 8, i);
     }
 
     /*
@@ -72,7 +73,7 @@ public class SpeechRecognition {
             dis.close();
             return buffer;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
@@ -82,8 +83,7 @@ public class SpeechRecognition {
      * Convert speech to text.
      */
     public static String speechRecognition(String fileName) {
-        final byte[] speech = readData(fileName);                          //reads a .wav (sound) file
-        final String text = recognizeSpeech(speech);     //converts the speech into txt
-        return text;                                                   //prints it
+        final byte[] speech = readData(fileName);  //reads a .wav (sound) file
+        return recognizeSpeech(speech);            //converts the speech into txt prints it
     }
 }

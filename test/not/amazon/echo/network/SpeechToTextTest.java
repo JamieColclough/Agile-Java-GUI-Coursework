@@ -7,7 +7,7 @@ package not.amazon.echo.network;
 
 import org.junit.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -38,14 +38,14 @@ public class SpeechToTextTest
 
 
     /**
-     * Test of speechToText method, of class SpeechRecognition.
+     * Test of speechToText method, of class SpeechToText.
      */
     @Test
     public void testSpeechRecognition() {
         System.out.println("speechToText");
         String fileName = "res/eastwood.wav";
         String exResult = "Do I feel lucky well do you punk?";
-        String text = SpeechRecognition.speechRecognition(fileName);
+        String text = SpeechToText.speechRecognition(fileName);
         assertEquals(text, exResult);
     }
     

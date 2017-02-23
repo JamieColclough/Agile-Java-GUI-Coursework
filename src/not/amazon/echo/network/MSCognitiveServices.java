@@ -6,7 +6,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
- * Class containing common attributes for both SpeechRecognition and
+ * Class containing common attributes for both SpeechToText and
  * TextToSpeech related to Microsoft Cognitive Services.
  * <p>
  * Go to:

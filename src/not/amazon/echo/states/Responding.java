@@ -1,7 +1,8 @@
 package not.amazon.echo.states;
 
 import not.amazon.echo.Echo;
-import not.amazon.echo.network.SpeechRecognition;
+import not.amazon.echo.network.SpeechToText;
+
 /**
  * State representing the phase in which the product responds to the user
  * performs response then returns to the listening state
@@ -28,7 +29,7 @@ public class Responding implements State
 
         echo.gui.setBackground(echo.gui.iconEchoAnswer);
 
-        String text = SpeechRecognition.speechRecognition("res/output.wav");
+        String text = SpeechToText.speechRecognition("res/output.wav");
         System.out.println(text);
         echo.setState(new OnOff());
     }

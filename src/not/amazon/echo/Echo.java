@@ -16,7 +16,6 @@ public class Echo
 
     public EchoInterface gui;
     private State state;
-    private Button button;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode
@@ -24,7 +23,7 @@ public class Echo
     public Echo()
     {
         this.state = new OnOff();
-        button = new Button();
+        Button button = new Button();
         button.addListener(event -> state.onButtonPressed(this));
 
         gui = new EchoInterface(button);

@@ -1,5 +1,7 @@
 package not.amazon.echo.sound;
 
+import not.amazon.echo.ErrorHandler;
+
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,7 +38,7 @@ public class RecordSound {
             line.start();
             return stm;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
@@ -63,7 +65,7 @@ public class RecordSound {
 
             return bos;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
@@ -87,7 +89,7 @@ public class RecordSound {
             File file = new File(name);
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
         }
     }

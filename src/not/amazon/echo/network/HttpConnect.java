@@ -1,5 +1,7 @@
 package not.amazon.echo.network;
 
+import not.amazon.echo.ErrorHandler;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -74,7 +76,7 @@ class HttpConnect
 
             return response;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
