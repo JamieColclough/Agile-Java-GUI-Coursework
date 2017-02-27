@@ -5,7 +5,6 @@ import not.amazon.echo.ErrorHandler;
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 
 /*
@@ -71,35 +70,33 @@ public class RecordSound {
         }
     }
 
-    /*
-     * Record sound.
-     */
-    private static void recordSound(String name, ByteArrayOutputStream bos) {
+    private static AudioFormat getAudioFormat() {
+        return new AudioFormat(SAMPLE_RATE
+                , SAMPLE_SIZE
+                , SAMPLE_CHANNELS
+                , true /* signed */
+                , true /* little-endian */
+        );
+    }
+
+    private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
+        ByteArrayOutputStream output = null;
         try {
-            AudioFormat af =
-                    new AudioFormat(SAMPLE_RATE
-                            , SAMPLE_SIZE
-                            , SAMPLE_CHANNELS
-                            , true /* signed */
-                            , true /* little-endian */
-                    );
+            AudioFormat af = getAudioFormat();
             byte[] ba = bos.toByteArray();
             InputStream is = new ByteArrayInputStream(ba);
             AudioInputStream ais = new AudioInputStream(is, af, ba.length);
-            File file = new File(name);
-            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
+            output = new ByteArrayOutputStream();
+            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, output);
         } catch (Exception ex) {
             ErrorHandler.log(ex);
             System.exit(1);
         }
+        return output;
     }
 
-    /*
-     * Record sound.
-     */
-    public static void recordSound() {
-        AudioInputStream stm = setupStream();
-        recordSound(FILENAME, readStream(stm));
+    public static byte[] recordSoundData() {
+        return formatStream(readStream(setupStream())).toByteArray();
     }
 }
 
