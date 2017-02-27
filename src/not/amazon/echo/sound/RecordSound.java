@@ -71,19 +71,22 @@ public class RecordSound {
         }
     }
 
+    private static AudioFormat getAudioFormat() {
+        return new AudioFormat(SAMPLE_RATE
+                , SAMPLE_SIZE
+                , SAMPLE_CHANNELS
+                , true /* signed */
+                , true /* little-endian */
+        );
+    }
+
     /*
      * Record sound.
      */
     @Deprecated
     private static void recordSound(String name, ByteArrayOutputStream bos) {
         try {
-            AudioFormat af =
-                    new AudioFormat(SAMPLE_RATE
-                            , SAMPLE_SIZE
-                            , SAMPLE_CHANNELS
-                            , true /* signed */
-                            , true /* little-endian */
-                    );
+            AudioFormat af = getAudioFormat();
             byte[] ba = bos.toByteArray();
             InputStream is = new ByteArrayInputStream(ba);
             AudioInputStream ais = new AudioInputStream(is, af, ba.length);
@@ -95,8 +98,24 @@ public class RecordSound {
         }
     }
 
+    private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
+        ByteArrayOutputStream output = null;
+        try {
+            AudioFormat af = getAudioFormat();
+            byte[] ba = bos.toByteArray();
+            InputStream is = new ByteArrayInputStream(ba);
+            AudioInputStream ais = new AudioInputStream(is, af, ba.length);
+            output = new ByteArrayOutputStream();
+            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, output);
+        } catch (Exception ex) {
+            ErrorHandler.log(ex);
+            System.exit(1);
+        }
+        return output;
+    }
+
     public static byte[] recordSoundData() {
-        return readStream(setupStream()).toByteArray();
+        return formatStream(readStream(setupStream())).toByteArray();
     }
 
     /*
