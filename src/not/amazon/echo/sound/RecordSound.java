@@ -5,7 +5,6 @@ import not.amazon.echo.ErrorHandler;
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 
 /*
@@ -80,24 +79,6 @@ public class RecordSound {
         );
     }
 
-    /*
-     * Record sound.
-     */
-    @Deprecated
-    private static void recordSound(String name, ByteArrayOutputStream bos) {
-        try {
-            AudioFormat af = getAudioFormat();
-            byte[] ba = bos.toByteArray();
-            InputStream is = new ByteArrayInputStream(ba);
-            AudioInputStream ais = new AudioInputStream(is, af, ba.length);
-            File file = new File(name);
-            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
-        } catch (Exception ex) {
-            ErrorHandler.log(ex);
-            System.exit(1);
-        }
-    }
-
     private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
         ByteArrayOutputStream output = null;
         try {
@@ -116,15 +97,6 @@ public class RecordSound {
 
     public static byte[] recordSoundData() {
         return formatStream(readStream(setupStream())).toByteArray();
-    }
-
-    /*
-     * Record sound.
-     */
-    @Deprecated
-    public static void recordSound() {
-        AudioInputStream stm = setupStream();
-        recordSound(FILENAME, readStream(stm));
     }
 }
 
