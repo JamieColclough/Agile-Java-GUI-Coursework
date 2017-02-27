@@ -74,6 +74,7 @@ public class RecordSound {
     /*
      * Record sound.
      */
+    @Deprecated
     private static void recordSound(String name, ByteArrayOutputStream bos) {
         try {
             AudioFormat af =
@@ -94,9 +95,14 @@ public class RecordSound {
         }
     }
 
+    public static byte[] recordSoundData() {
+        return readStream(setupStream()).toByteArray();
+    }
+
     /*
      * Record sound.
      */
+    @Deprecated
     public static void recordSound() {
         AudioInputStream stm = setupStream();
         recordSound(FILENAME, readStream(stm));

@@ -12,6 +12,12 @@ import not.amazon.echo.network.SpeechToText;
  */
 public class Responding implements State
 {
+    private byte[] data;
+
+    public Responding(byte[] data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "Responding";
@@ -29,7 +35,7 @@ public class Responding implements State
 
         echo.gui.setBackground(echo.gui.iconEchoAnswer);
 
-        String text = SpeechToText.speechRecognition("res/output.wav");
+        String text = SpeechToText.recognizeSpeech(data);
         System.out.println(text);
         echo.setState(new OnOff());
     }

@@ -20,12 +20,12 @@ import java.util.UUID;
  */
 
 public class SpeechToText {
-//all attributes are enherited from Microsoft Cognitive Services.
+//all attributes are inherited from Microsoft Cognitive Services.
 
     /*
      * Recognize speech.
      */
-    private static String recognizeSpeech(byte[] body) {
+    public static String recognizeSpeech(byte[] body) {
         final String method = "POST";
         final String url
                 = ("https://speech.platform.bing.com/recognize"
@@ -63,6 +63,7 @@ public class SpeechToText {
     /*
      * Read data from file.
      */
+    @Deprecated
     private static byte[] readData(String name) {
         try {
             File file = new File(name);
@@ -82,6 +83,7 @@ public class SpeechToText {
     /*
      * Convert speech to text.
      */
+    @Deprecated
     public static String speechRecognition(String fileName) {
         final byte[] speech = readData(fileName);  //reads a .wav (sound) file
         return recognizeSpeech(speech);            //converts the speech into txt prints it

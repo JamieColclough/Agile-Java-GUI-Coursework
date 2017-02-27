@@ -34,8 +34,8 @@ public class Listening implements State
         echo.gui.setBackground(echo.gui.iconEcho);
 
         new Thread(() -> {
-            RecordSound.recordSound();
-            echo.setState(new Responding());
+            byte[] data = RecordSound.recordSoundData();
+            echo.setState(new Responding(data));
         }).start();
 
     }
