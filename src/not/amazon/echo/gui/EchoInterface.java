@@ -1,8 +1,8 @@
 package not.amazon.echo.gui;
 
-import not.amazon.echo.Button;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * Generates a JFrame that contains an image of the echo in the correct state (either off,
@@ -22,10 +22,11 @@ public class EchoInterface extends JFrame {
     /**
      * Constructor that sets the image of the JFrame to that passed to the constructor and also
      * adds an on/off button to the JFrame.
-     *
-     * @param button The internal event handler for this interface
+     * Alicia Daurignac modifications:
+     * replaced internal eventListener with builtin ActionListener.
+     * @param button ActionListener for when the button is pressed
      */
-    public EchoInterface(Button button) {
+    public EchoInterface(ActionListener button) {
         setTitle("Echo");
         label = new JLabel(iconEchoOff);
         setContentPane(label);
@@ -35,7 +36,7 @@ public class EchoInterface extends JFrame {
         add(btn1);
 
         //When the button is pressed, fire our Button event
-        btn1.addActionListener(e -> button.pressButton());
+        btn1.addActionListener(button);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
