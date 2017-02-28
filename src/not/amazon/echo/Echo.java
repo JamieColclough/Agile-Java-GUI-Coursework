@@ -18,15 +18,15 @@ public class Echo
     private State state;
 
     /**
-     * Constructor for stateMachine, default constructor as when turned on should always start in standby mode
+     * Constructor for stateMachine, default constructor as when turned on should always start in standby mode.
+     * Alicia Daurignac modifications:
+     * Deleted the Button, ButtonPressedEvent and ButtonPressedListener classes in favour of builtin ActionListener.
      */
     public Echo()
     {
         this.state = new OnOff();
-        Button button = new Button();
-        button.addListener(event -> state.onButtonPressed(this));
 
-        gui = new EchoInterface(button);
+        gui = new EchoInterface(event -> state.onButtonPressed(this));
     }
 
     /**
