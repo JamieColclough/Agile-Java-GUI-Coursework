@@ -70,7 +70,7 @@ public class WolframAPI {
    * Main method used to show class works, will be removed once class is integrated into the project
    */
     public static void main( String[] argv ) {
-        String problem = "What is the life of pi?";
+        String problem = "Does Santa Clause exist?";
         final String solution = answer(problem);
         System.out.println(solution);
   }
