@@ -64,14 +64,5 @@ public class WolframAPI {
         else {
             return "Sorry, I was unable to find an answer to your question"; //In the case that no answer was returned from the server
         }
-    }   
-  
-  /*
-   * Main method used to show class works, will be removed once class is integrated into the project
-   */
-    public static void main( String[] argv ) {
-        String problem = "Does Santa Clause exist?";
-        final String solution = answer(problem);
-        System.out.println(solution);
-  }
+    }
 }
