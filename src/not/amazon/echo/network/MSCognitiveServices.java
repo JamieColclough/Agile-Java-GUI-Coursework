@@ -26,6 +26,8 @@ class MSCognitiveServices
     private final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
     private static long lastTime;
     private static String token = null;
+    public final static String GENDER = "Female";
+    public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
   
    /*
     *final static String KEY2 = "228990e067f147bf842b70034065efc8";
