@@ -3,7 +3,12 @@ package not.amazon.echo.states;
 import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.network.NoSpeechException;
+import not.amazon.echo.Echo;
+import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.network.SpeechToText;
+import not.amazon.echo.network.TextToSpeech;
+import not.amazon.echo.network.WolframAPI;
+import not.amazon.echo.sound.PlaySound;
 
 /**
  * State representing the phase in which the product responds to the user
@@ -35,14 +40,12 @@ public class Responding implements State
     public void onEnterState(IEcho echo) {
 
         echo.getGUI().setLights(EchoLights.RESPONDING);
-
-        String text = null;
         try {
-            text = SpeechToText.recognizeSpeech(data);
-        } catch (NoSpeechException e) {
-            e.printStackTrace();
+            String text = SpeechToText.recognizeSpeech(data);
+            PlaySound.playSound(TextToSpeech.say(WolframAPI.answer(text)));
+        } catch (NoSpeechException exception) {
+            PlaySound.playSound(TextToSpeech.say("I'm sorry, I didn't hear what you said."));
         }
-        System.out.println(text);
         echo.setState(new OnOff());
     }
 }
