@@ -30,7 +30,7 @@ public class StateMachineTest {
     public void testSetState() {
         testMachine.setState(new Listening());
         expectedState = "Listening";
-        testState = testMachine.currentState();
+        testState = testMachine.currentState().toString();
         assertEquals(expectedState,testState);
         
     }
@@ -42,7 +42,7 @@ public class StateMachineTest {
     @Test
     public void testCurrentState() {
         expectedState = "On/Off";
-        testState = testMachine.currentState();
+        testState = testMachine.currentState().toString();
         assertEquals(expectedState,testState);        
     }
     

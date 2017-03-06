@@ -12,21 +12,21 @@ import java.awt.event.ActionListener;
  * @version 21/02/2017
  */
 
-public class EchoInterface extends JFrame {
-    public final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
-    public final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
-    public final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
+public class EchoGUI extends JFrame implements IEchoGUI {
+    private final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
+    private final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
+    private final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
     private final OnButton btn1 = new OnButton();
     private final JLabel label;
 
     /**
      * Constructor that sets the image of the JFrame to that passed to the constructor and also
      * adds an on/off button to the JFrame.
-     * Alicia Daurignac modifications:
+     *
      * replaced internal eventListener with builtin ActionListener.
      * @param button ActionListener for when the button is pressed
      */
-    public EchoInterface(ActionListener button) {
+    public EchoGUI(ActionListener button) {
         setTitle("Echo");
         label = new JLabel(iconEchoOff);
         setContentPane(label);
@@ -47,8 +47,18 @@ public class EchoInterface extends JFrame {
         setVisible(true);
     }
 
-    public void setBackground(ImageIcon icon) {
-        label.setIcon(icon);
+    public void setLights(EchoLights colour) {
+        switch (colour) {
+            case OFF:
+                label.setIcon(iconEchoOff);
+                break;
+            case LISTENING:
+                label.setIcon(iconEcho);
+                break;
+            case RESPONDING:
+                label.setIcon(iconEchoAnswer);
+                break;
+        }
     }
 
     /**

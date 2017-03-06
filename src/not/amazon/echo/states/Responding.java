@@ -1,6 +1,7 @@
 package not.amazon.echo.states;
 
-import not.amazon.echo.Echo;
+import not.amazon.echo.IEcho;
+import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.network.SpeechToText;
 
 /**
@@ -24,16 +25,16 @@ public class Responding implements State
     }
 
     @Override
-    public void onButtonPressed(Echo echo)
+    public void onButtonPressed(IEcho echo)
     {
         //Can't press the button here, method performs no action        
     }
 
     @Override
-    public void onEnterState(Echo echo)
+    public void onEnterState(IEcho echo)
     {
 
-        echo.gui.setBackground(echo.gui.iconEchoAnswer);
+        echo.getGUI().setLights(EchoLights.RESPONDING);
 
         String text = SpeechToText.recognizeSpeech(data);
         System.out.println(text);
