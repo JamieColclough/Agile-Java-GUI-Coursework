@@ -19,8 +19,7 @@ public class OnOff implements State
     }
 
     @Override
-    public void onButtonPressed(IEcho echo)
-    {
+    public void onButtonPressed(IEcho echo) {
         PlaySound.playSoundAsync("res/startup.wav");
         echo.setState(new Listening());
     }

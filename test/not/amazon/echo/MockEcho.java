@@ -16,6 +16,12 @@ public class MockEcho implements IEcho {
         this.gui = GUI;
     }
 
+    /**
+     * Setting the state does not call onEnterState for the new state
+     * so that we don't start a stateMachine lifecycle.
+     *
+     * @param state
+     */
     @Override
     public void setState(State state) {
         this.state = state;

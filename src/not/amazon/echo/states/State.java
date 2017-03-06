@@ -1,6 +1,7 @@
 package not.amazon.echo.states;
 
 import not.amazon.echo.IEcho;
+
 /**
  * Basic interface for states contained within the state machine
  *

@@ -37,6 +37,7 @@ public class Listening implements State
         new Thread(() -> {
             byte[] data = RecordSound.recordSoundData();
             echo.setState(new Responding(data));
+
         }).start();
 
     }

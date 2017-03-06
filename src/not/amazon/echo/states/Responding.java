@@ -2,6 +2,7 @@ package not.amazon.echo.states;
 
 import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
+import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.network.SpeechToText;
 
 /**
@@ -31,12 +32,16 @@ public class Responding implements State
     }
 
     @Override
-    public void onEnterState(IEcho echo)
-    {
+    public void onEnterState(IEcho echo) {
 
         echo.getGUI().setLights(EchoLights.RESPONDING);
 
-        String text = SpeechToText.recognizeSpeech(data);
+        String text = null;
+        try {
+            text = SpeechToText.recognizeSpeech(data);
+        } catch (NoSpeechException e) {
+            e.printStackTrace();
+        }
         System.out.println(text);
         echo.setState(new OnOff());
     }

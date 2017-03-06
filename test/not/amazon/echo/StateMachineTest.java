@@ -1,5 +1,6 @@
 package not.amazon.echo;
 
+import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.states.Listening;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class StateMachineTest {
      * returned from currentState()
      */
     @Test
-    public void testSetState() {
+    public void testSetState() throws NoSpeechException {
         testMachine.setState(new Listening());
         expectedState = "Listening";
         testState = testMachine.currentState().toString();

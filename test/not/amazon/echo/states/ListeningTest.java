@@ -1,6 +1,8 @@
 package not.amazon.echo.states;
 
-import not.amazon.echo.IEcho;
+import not.amazon.echo.MockEcho;
+import not.amazon.echo.gui.EchoLights;
+import not.amazon.echo.gui.MockEchoGUI;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class ListeningTest {
 
+    private MockEcho mockEcho;
+    private MockEchoGUI mockEchoGUI;
     private Listening test;
 
     /**
@@ -22,6 +26,8 @@ public class ListeningTest {
     @Before
     public void setUp() throws Exception {
         test = new Listening();
+        mockEchoGUI = new MockEchoGUI();
+        mockEcho = new MockEcho(mockEchoGUI);
 
     }
 
@@ -44,8 +50,14 @@ public class ListeningTest {
         assertEquals("Listening", test.toString());
     }
 
-    public void onEnterStateTest(IEcho echo) {
-        //
+    /**
+     * Asserts that Listening changes the lights to the listening state.
+     */
+    @Test
+    public void onEnterStateTest() {
+        test.onEnterState(mockEcho);
+        assertEquals(mockEchoGUI.currentLights, EchoLights.LISTENING);
+
 
     }
 }

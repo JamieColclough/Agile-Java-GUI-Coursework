@@ -10,7 +10,6 @@ import org.junit.*;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +45,7 @@ public class SpeechToTextTest
      * Test of speechToText method, of class SpeechToText.
      */
     @Test
-    public void testSpeechRecognition() throws IOException {
+    public void testSpeechRecognition() throws Exception {
         //TODO needs commenting
 
         System.out.println("speechToText");
