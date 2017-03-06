@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 /**
+ * Tests the Responding class.
  * Created by AliciaDaurignac on 06/03/2017.
  */
 public class RespondingTest {
@@ -23,6 +24,11 @@ public class RespondingTest {
     private MockEchoGUI mockEchoGUI;
     private Responding test;
 
+    /**
+     * Reads the file eastwood.wav and passes the byte array to the Responding state.
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         String fileName = "res/eastwood.wav";
