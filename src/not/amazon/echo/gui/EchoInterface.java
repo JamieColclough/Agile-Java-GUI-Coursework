@@ -32,7 +32,7 @@ public class EchoInterface extends JFrame {
         setContentPane(label);
         setLayout(null);
 
-        btn1.setBounds(290, 560, 20, 20);
+        btn1.setBounds(290, 490, 20, 20);
         add(btn1);
 
         //When the button is pressed, fire our Button event
@@ -42,7 +42,7 @@ public class EchoInterface extends JFrame {
 
         //pack(); this just sets the size, which we set a bit later anyway
         setLocationRelativeTo(null);
-        setSize(600, 800);
+        setSize(600, 652);
         setResizable(false);
         setVisible(true);
     }
