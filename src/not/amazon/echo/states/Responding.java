@@ -1,5 +1,8 @@
 package not.amazon.echo.states;
 
+import not.amazon.echo.IEcho;
+import not.amazon.echo.gui.EchoLights;
+import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.Echo;
 import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.network.SpeechToText;
@@ -28,22 +31,21 @@ public class Responding implements State
     }
 
     @Override
-    public void onButtonPressed(Echo echo)
+    public void onButtonPressed(IEcho echo)
     {
         //Can't press the button here, method performs no action        
     }
 
     @Override
-    public void onEnterState(Echo echo)
-    {
+    public void onEnterState(IEcho echo) {
 
-        echo.gui.setBackground(echo.gui.iconEchoAnswer);
+        echo.getGUI().setLights(EchoLights.RESPONDING);
         try {
             String text = SpeechToText.recognizeSpeech(data);
             PlaySound.playSound(TextToSpeech.say(WolframAPI.answer(text)));
-            echo.setState(new OnOff());
         } catch (NoSpeechException exception) {
-            System.out.println("No speech detected");
+            PlaySound.playSound(TextToSpeech.say("I'm sorry, I didn't hear what you said."));
         }
+        echo.setState(new OnOff());
     }
 }
