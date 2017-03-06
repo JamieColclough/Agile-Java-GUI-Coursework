@@ -20,7 +20,7 @@ public class SpeechToText {
     /*
      * Recognize speech.
      */
-    public static String recognizeSpeech(byte[] body) {
+    public static String recognizeSpeech(byte[] body) throws NoSpeechException {
         final String method = "POST";
         final String url
                 = ("https://speech.platform.bing.com/recognize"
@@ -40,17 +40,14 @@ public class SpeechToText {
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
         };
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
+
         //response includes all the JSON context, for this application we only need the actual thing that was said,
         // the following part of this method will find, and return the useful bit of response.
-
-        //TODO throw exceptions rather than returning null
-
         String sResponse;
-        if (response != null) {
-            sResponse = new String(response);
-        } else {
-            return null;
+        if (response == null) {
+            throw new NoSpeechException("No Speech Detected.");
         }
+        sResponse = new String(response);
         int i;
         if (sResponse.contains("\"name\":\"")) {
             i = sResponse.indexOf("\"name\":\"") + 9;       //+9 to skip all the characters in the string

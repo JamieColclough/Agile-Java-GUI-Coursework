@@ -20,22 +20,19 @@ import java.io.FileOutputStream;
 
 public class TextToSpeech
 {
-    private final static String GENDER = "Female";
-    private final static String OUTPUT = "res/textToSpeech.wav";
-    private final static String FORMAT = "riff-16khz-16bit-mono-pcm";
+
+
 
     /*
-     * Synthesize speech.
+     * Convert text to speech.
      */
-    private static byte[] synthesizeSpeech(String text
-            , String lang, String gender
-            , String format) {
+    public static byte[] say(String text) {
         final String method = "POST";
         final String url = "https://speech.platform.bing.com/synthesize";
         final byte[] body
                 = ("<speak version='1.0' xml:lang='en-us'>"
-                + "<voice xml:lang='" + lang + "' "
-                + "xml:gender='" + gender + "' "
+                + "<voice xml:lang='" + MSCognitiveServices.LANG + "' "
+                + "xml:gender='" + MSCognitiveServices.GENDER + "' "
                 + "name='Microsoft Server Speech Text to Speech Voice"
                 + " (en-US, ZiraRUS)'>"
                 + text
@@ -44,35 +41,9 @@ public class TextToSpeech
                 = {{"Content-Type", "application/ssml+xml"}
                 , {"Content-Length", String.valueOf(body.length)}
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
-                , {"X-Microsoft-OutputFormat", format}
+                , {"X-Microsoft-OutputFormat", MSCognitiveServices.FORMAT}
         };
-        return HttpConnect.httpConnect(method, url, headers, body);
-    }
-
-
-    /*
-     * Write data to file.
-     */
-    private static void writeData(byte[] buffer, String name) {
-        try {
-            File file = new File(name);
-            FileOutputStream fos = new FileOutputStream(file);
-            DataOutputStream dos = new DataOutputStream(fos);
-            dos.write(buffer);
-            dos.flush();
-            dos.close();
-        } catch (Exception ex) {
-            ErrorHandler.log(ex);
-            System.exit(1);
-        }
-    }
-
-
-    /*
-     * Convert text to speech.
-     */
-    public static void say(String text) {
-        final byte[] speech = synthesizeSpeech(text, MSCognitiveServices.LANG, GENDER, FORMAT);
-        writeData(speech, OUTPUT);
+        byte[] speech =  HttpConnect.httpConnect(method, url, headers, body);
+        return speech;
     }
 }
