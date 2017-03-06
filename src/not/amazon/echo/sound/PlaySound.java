@@ -1,7 +1,6 @@
 package not.amazon.echo.sound;
 
 
-import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -47,5 +46,9 @@ public class PlaySound {
 
     public static void playSoundAsync(String fileName) {
         new Thread(() -> playSound(fileName)).start();
+    }
+
+    public static void playSoundAsync(byte[] bytes) {
+        new Thread(() -> playSound(bytes)).start();
     }
 }
