@@ -12,24 +12,14 @@ import java.io.InputStream;
  * Derived by Adam Mitchell
  */
 public class RecordSound {
-    private static final String FILENAME = "res/output.wav";
     private static final int TIMER = 5;     /* secs */
-    private static final int SAMPLE_RATE = 16000; /* MHz  */
-    private static final int SAMPLE_SIZE = 16;    /* bits */
-    private static final int SAMPLE_CHANNELS = 1;     /* mono */
 
     /*
      * Set up stream.
      */
     private static AudioInputStream setupStream() {
         try {
-            AudioFormat af =
-                    new AudioFormat(SAMPLE_RATE
-                            , SAMPLE_SIZE
-                            , SAMPLE_CHANNELS
-                            , true /* signed */
-                            , true /* little-endian */
-                    );
+            AudioFormat af = FormatManager.getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, af);
             TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
             AudioInputStream stm = new AudioInputStream(line);
@@ -50,7 +40,7 @@ public class RecordSound {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            int bufferSize = SAMPLE_RATE * stm.getFormat().getFrameSize();
+            int bufferSize = FormatManager.SAMPLE_RATE * stm.getFormat().getFrameSize();
             byte buffer[] = new byte[bufferSize];
 
             for (int counter = TIMER; counter > 0; counter--) {
@@ -70,19 +60,10 @@ public class RecordSound {
         }
     }
 
-    private static AudioFormat getAudioFormat() {
-        return new AudioFormat(SAMPLE_RATE
-                , SAMPLE_SIZE
-                , SAMPLE_CHANNELS
-                , true /* signed */
-                , true /* little-endian */
-        );
-    }
-
     private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
         ByteArrayOutputStream output = null;
         try {
-            AudioFormat af = getAudioFormat();
+            AudioFormat af = FormatManager.getAudioFormat();
             byte[] ba = bos.toByteArray();
             InputStream is = new ByteArrayInputStream(ba);
             AudioInputStream ais = new AudioInputStream(is, af, ba.length);

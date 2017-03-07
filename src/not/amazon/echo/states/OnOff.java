@@ -1,6 +1,9 @@
 package not.amazon.echo.states;
 
-import not.amazon.echo.Echo;
+import not.amazon.echo.IEcho;
+import not.amazon.echo.gui.EchoLights;
+import not.amazon.echo.sound.PlaySound;
+
 /**
  * State representing the product in its On/Off phase
  * waiting for the power button to be pressed
@@ -16,16 +19,16 @@ public class OnOff implements State
     }
 
     @Override
-    public void onButtonPressed(Echo echo)
-    {
+    public void onButtonPressed(IEcho echo) {
+        PlaySound.playSoundAsync("res/startup.wav");
         echo.setState(new Listening());
     }
 
     @Override
-    public void onEnterState(Echo echo)
+    public void onEnterState(IEcho echo)
     {
         //Code for lights changing etc here
-        echo.gui.setBackground(echo.gui.iconEchoOff);
+        echo.getGUI().setLights(EchoLights.OFF);
 
     }
 }
