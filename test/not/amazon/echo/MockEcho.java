@@ -11,6 +11,7 @@ public class MockEcho implements IEcho {
 
     public IEchoGUI gui;
     private State state;
+
     public MockEcho(IEchoGUI GUI) {
         this.gui = GUI;
     }

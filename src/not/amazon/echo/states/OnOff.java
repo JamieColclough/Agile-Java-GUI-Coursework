@@ -21,7 +21,7 @@ public class OnOff implements State
     public void onButtonPressed(IEcho echo) {
         //hello sound played when device turned on and advanced to listening state with
         //corresponding image
-        PlaySound.playSoundAsync("res/startup.wav");
+        PlaySound.playSoundAsync("res/hello.wav");
         echo.setState(new Listening());
     }
 
