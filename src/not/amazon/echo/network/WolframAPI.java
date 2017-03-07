@@ -6,7 +6,7 @@ import java.net.URLEncoder;
  * Class containing static methods to send a query to the wolfram alpha server
  * Aspects of code taken from David Wakeling's Computational.java file
  * @author James Colclough 
- * @version 1.1
+ * @version 1.2
  */
 public class WolframAPI {
   final static String APPID   = "QWJHX6-P839WKWR8P";
@@ -59,7 +59,9 @@ public class WolframAPI {
             while (answer.charAt(i) != '"') {
                 i++; //This is done to compute the index at which the answer ends
             } 
-            return answer.substring(answer.indexOf("\"plaintext\" : \"")+15 , i);//Only returns the answer String specified by the index
+            answer = answer.substring(answer.indexOf("\"plaintext\" : \"")+15 , i);//Only returns the answer String specified by the index
+            answer = answer.replace("\\n","").replace("\\t","");//Removes /n and /t parts of string that may be included in a query with multiple answers
+            return answer;
         } 
         else {
             return "Sorry, I was unable to find an answer to your question"; //In the case that no answer was returned from the server
