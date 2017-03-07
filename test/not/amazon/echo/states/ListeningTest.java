@@ -10,6 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
+ * Test the Listening class.
  * Created by AliciaDaurignac on 28/02/2017.
  */
 public class ListeningTest {

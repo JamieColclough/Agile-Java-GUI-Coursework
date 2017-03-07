@@ -3,8 +3,6 @@ package not.amazon.echo.states;
 import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.network.NoSpeechException;
-import not.amazon.echo.Echo;
-import not.amazon.echo.network.NoSpeechException;
 import not.amazon.echo.network.SpeechToText;
 import not.amazon.echo.network.TextToSpeech;
 import not.amazon.echo.network.WolframAPI;

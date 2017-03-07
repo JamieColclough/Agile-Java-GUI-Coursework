@@ -10,7 +10,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Testing OnOFF class.
+ * Tests the OnOFF class.
  * Created by AliciaDaurignac on 06/03/2017.
  */
 public class OnOffTest {
@@ -20,6 +20,11 @@ public class OnOffTest {
     private MockEchoGUI mockEchoGUI;
 
 
+    /**
+     * Create a mock Echo and a mock EchoGui for the test.
+     *
+     * @throws Exception
+     */
     @Before
     public void setUp() throws Exception {
         onOff = new OnOff();
@@ -28,6 +33,11 @@ public class OnOffTest {
 
     }
 
+    /**
+     * Tears down the test.
+     *
+     * @throws Exception
+     */
     @After
     public void tearDown() throws Exception {
 
