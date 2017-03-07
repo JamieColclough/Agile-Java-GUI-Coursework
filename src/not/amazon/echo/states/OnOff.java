@@ -1,6 +1,7 @@
 package not.amazon.echo.states;
 
-import not.amazon.echo.Echo;
+import not.amazon.echo.IEcho;
+import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.sound.PlaySound;
 
 /**
@@ -17,20 +18,20 @@ public class OnOff implements State
         return "On/Off";
     }
 
-    @Override
-    public void onButtonPressed(Echo echo)
-    {
-		//hello sound played when device turned on and advanced to listening state with
-		//corresponding image
-		PlaySound.playSoundAsync("res/hello.wav");
+    public void onButtonPressed(IEcho echo) {
+        //hello sound played when device turned on and advanced to listening state with
+        //corresponding image
+        PlaySound.playSoundAsync("res/startup.wav");
         echo.setState(new Listening());
     }
 
     @Override
-    public void onEnterState(Echo echo)
+    public void onEnterState(IEcho echo)
     {
+        //Code for lights changing etc here
+        echo.getGUI().setLights(EchoLights.OFF);
+
 		//Off image of echo will be shown when device is turned off followed by a goodbye sound
-	    echo.gui.setBackground(echo.gui.iconEchoOff);
 		PlaySound.playSoundAsync("res/goodbye.wav");
     }
 }

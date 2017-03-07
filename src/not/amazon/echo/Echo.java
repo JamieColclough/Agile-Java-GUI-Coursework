@@ -1,6 +1,6 @@
 package not.amazon.echo;
 
-import not.amazon.echo.gui.EchoInterface;
+import not.amazon.echo.gui.EchoGUI;
 import not.amazon.echo.states.OnOff;
 import not.amazon.echo.states.State;
 
@@ -11,22 +11,22 @@ import not.amazon.echo.states.State;
  * @author James Colclough
  * @version 1.2
  */
-public class Echo
+public class Echo implements IEcho
 {
 
-    public final EchoInterface gui;
+    private final EchoGUI gui;
     private State state;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode.
-     * Alicia Daurignac modifications:
+     *
      * Deleted the Button, ButtonPressedEvent and ButtonPressedListener classes in favour of builtin ActionListener.
      */
     public Echo()
     {
         this.state = new OnOff();
 
-        gui = new EchoInterface(event -> state.onButtonPressed(this));
+        gui = new EchoGUI(event -> state.onButtonPressed(this));
     }
 
     /**
@@ -46,7 +46,16 @@ public class Echo
      *
      * @return The String describing the current state of the machine
      */
-    public String currentState() {
-        return this.state.toString();
+    public State currentState() {
+        return this.state;
+    }
+
+    /**
+     * Returns the GUI interface.
+     *
+     * @return gui
+     */
+    public EchoGUI getGUI() {
+        return gui;
     }
 }

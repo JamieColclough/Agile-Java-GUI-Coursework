@@ -12,27 +12,27 @@ import java.awt.event.ActionListener;
  * @version 21/02/2017
  */
 
-public class EchoInterface extends JFrame {
-    public final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
-    public final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
-    public final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
+public class EchoGUI extends JFrame implements IEchoGUI {
+    private final ImageIcon iconEcho = new ImageIcon("res/echo.jpg");
+    private final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
+    private final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
     private final OnButton btn1 = new OnButton();
     private final JLabel label;
 
     /**
      * Constructor that sets the image of the JFrame to that passed to the constructor and also
      * adds an on/off button to the JFrame.
-     * Alicia Daurignac modifications:
+     *
      * replaced internal eventListener with builtin ActionListener.
      * @param button ActionListener for when the button is pressed
      */
-    public EchoInterface(ActionListener button) {
+    public EchoGUI(ActionListener button) {
         setTitle("Echo");
         label = new JLabel(iconEchoOff);
         setContentPane(label);
         setLayout(null);
 
-        btn1.setBounds(290, 560, 20, 20);
+        btn1.setBounds(290, 490, 20, 20);
         add(btn1);
 
         //When the button is pressed, fire our Button event
@@ -42,13 +42,23 @@ public class EchoInterface extends JFrame {
 
         //pack(); this just sets the size, which we set a bit later anyway
         setLocationRelativeTo(null);
-        setSize(600, 800);
+        setSize(600, 652);
         setResizable(false);
         setVisible(true);
     }
 
-    public void setBackground(ImageIcon icon) {
-        label.setIcon(icon);
+    public void setLights(EchoLights colour) {
+        switch (colour) {
+            case OFF:
+                label.setIcon(iconEchoOff);
+                break;
+            case LISTENING:
+                label.setIcon(iconEcho);
+                break;
+            case RESPONDING:
+                label.setIcon(iconEchoAnswer);
+                break;
+        }
     }
 
     /**
