@@ -1,11 +1,5 @@
 package not.amazon.echo.network;
 
-import not.amazon.echo.ErrorHandler;
-
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-
 /**
  * Text to speech conversion using Microsoft Cognitive Services.
  * <p>
@@ -20,7 +14,6 @@ import java.io.FileOutputStream;
 
 public class TextToSpeech
 {
-
 
 
     /*
@@ -43,7 +36,7 @@ public class TextToSpeech
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
                 , {"X-Microsoft-OutputFormat", MSCognitiveServices.FORMAT}
         };
-        byte[] speech =  HttpConnect.httpConnect(method, url, headers, body);
+        byte[] speech = HttpConnect.httpConnect(method, url, headers, body);
         return speech;
     }
 }

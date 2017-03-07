@@ -20,14 +20,14 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 class MSCognitiveServices
 {
+    public final static String GENDER = "Female";
+    public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     final static String LANG = "en-US";
     static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
     private final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
     private final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
     private static long lastTime;
     private static String token = null;
-    public final static String GENDER = "Female";
-    public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
   
    /*
     *final static String KEY2 = "228990e067f147bf842b70034065efc8";
