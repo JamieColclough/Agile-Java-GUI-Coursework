@@ -18,8 +18,9 @@ public class OnOff implements State
         return "On/Off";
     }
 
-    @Override
     public void onButtonPressed(IEcho echo) {
+        //hello sound played when device turned on and advanced to listening state with
+        //corresponding image
         PlaySound.playSoundAsync("res/startup.wav");
         echo.setState(new Listening());
     }
@@ -30,5 +31,7 @@ public class OnOff implements State
         //Code for lights changing etc here
         echo.getGUI().setLights(EchoLights.OFF);
 
+		//Off image of echo will be shown when device is turned off followed by a goodbye sound
+		PlaySound.playSoundAsync("res/goodbye.wav");
     }
 }
