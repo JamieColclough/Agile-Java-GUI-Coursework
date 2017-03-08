@@ -1,4 +1,6 @@
-package not.amazon.echo;
+package not.amazon.echo.states;
+
+import not.amazon.echo.IEcho;
 
 /**
  * Basic interface for states contained within the state machine
@@ -11,14 +13,14 @@ public interface State {
     /**
      * Method that performs a specific action depending on the implementation when the button is pressed
      *
-     * @param stateMachine
+     * @param echo The context of the state.
      */
-    void onButtonPressed(StateMachine stateMachine);
+    void onButtonPressed(IEcho echo);
 
     /**
      * Method that is called when the new state has been set up, will vary on implementation
      *
-     * @param stateMachine
+     * @param echo The context of the state.
      */
-    void onEnterState(StateMachine stateMachine);
+    void onEnterState(IEcho echo);
 }

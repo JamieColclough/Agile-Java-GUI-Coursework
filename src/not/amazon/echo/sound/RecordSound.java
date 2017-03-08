@@ -1,9 +1,10 @@
-package not.amazon.echo;
+package not.amazon.echo.sound;
+
+import not.amazon.echo.ErrorHandler;
 
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStream;
 
 /*
@@ -11,24 +12,14 @@ import java.io.InputStream;
  * Derived by Adam Mitchell
  */
 public class RecordSound {
-    private static final String FILENAME = "res/output.wav";
     private static final int TIMER = 5;     /* secs */
-    private static final int SAMPLE_RATE = 16000; /* MHz  */
-    private static final int SAMPLE_SIZE = 16;    /* bits */
-    private static final int SAMPLE_CHANNELS = 1;     /* mono */
 
     /*
      * Set up stream.
      */
-    public static AudioInputStream setupStream() {
+    private static AudioInputStream setupStream() {
         try {
-            AudioFormat af =
-                    new AudioFormat(SAMPLE_RATE
-                            , SAMPLE_SIZE
-                            , SAMPLE_CHANNELS
-                            , true /* signed */
-                            , true /* little-endian */
-                    );
+            AudioFormat af = FormatManager.getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, af);
             TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
             AudioInputStream stm = new AudioInputStream(line);
@@ -36,7 +27,7 @@ public class RecordSound {
             line.start();
             return stm;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
@@ -45,11 +36,11 @@ public class RecordSound {
     /*
      * Read stream.
      */
-    public static ByteArrayOutputStream readStream(AudioInputStream stm) {
+    private static ByteArrayOutputStream readStream(AudioInputStream stm) {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            int bufferSize = SAMPLE_RATE * stm.getFormat().getFrameSize();
+            int bufferSize = FormatManager.SAMPLE_RATE * stm.getFormat().getFrameSize();
             byte buffer[] = new byte[bufferSize];
 
             for (int counter = TIMER; counter > 0; counter--) {
@@ -63,41 +54,30 @@ public class RecordSound {
 
             return bos;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }
     }
 
-    /*
-     * Record sound.
-     */
-    public static void recordSound(String name, ByteArrayOutputStream bos) {
+    private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
+        ByteArrayOutputStream output = null;
         try {
-            AudioFormat af =
-                    new AudioFormat(SAMPLE_RATE
-                            , SAMPLE_SIZE
-                            , SAMPLE_CHANNELS
-                            , true /* signed */
-                            , true /* little-endian */
-                    );
+            AudioFormat af = FormatManager.getAudioFormat();
             byte[] ba = bos.toByteArray();
             InputStream is = new ByteArrayInputStream(ba);
             AudioInputStream ais = new AudioInputStream(is, af, ba.length);
-            File file = new File(name);
-            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, file);
+            output = new ByteArrayOutputStream();
+            AudioSystem.write(ais, AudioFileFormat.Type.WAVE, output);
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
         }
+        return output;
     }
 
-    /*
-     * Record sound.
-     */
-    public static void recordSound() {
-        AudioInputStream stm = setupStream();
-        recordSound(FILENAME, readStream(stm));
+    public static byte[] recordSoundData() {
+        return formatStream(readStream(setupStream())).toByteArray();
     }
 }
 

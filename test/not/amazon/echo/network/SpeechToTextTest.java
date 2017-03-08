@@ -3,19 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import org.junit.*;
 
-import static org.junit.Assert.*;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
  * @author Jacques-Antoine Portal
  */
-public class SpeechRecognitionTest {
-    
-    public SpeechRecognitionTest() {
+public class SpeechToTextTest
+{
+
+    public SpeechToTextTest()
+    {
     }
     
     @BeforeClass
@@ -36,14 +42,22 @@ public class SpeechRecognitionTest {
 
 
     /**
-     * Test of speechToText method, of class SpeechRecognition.
+     * Test of speechToText method, of class SpeechToText.
      */
     @Test
-    public void testSpeechRecognition() {
+    public void testSpeechRecognition() throws Exception {
+        //TODO needs commenting
+
         System.out.println("speechToText");
         String fileName = "res/eastwood.wav";
+        File file = new File(fileName);
+        FileInputStream fis = new FileInputStream(file);
+        DataInputStream dis = new DataInputStream(fis);
+        byte[] buffer = new byte[(int) file.length()];
+        dis.readFully(buffer);
+        dis.close();
         String exResult = "Do I feel lucky well do you punk?";
-        String text = SpeechRecognition.speechRecognition(fileName);
+        String text = SpeechToText.recognizeSpeech(buffer);
         assertEquals(text, exResult);
     }
     

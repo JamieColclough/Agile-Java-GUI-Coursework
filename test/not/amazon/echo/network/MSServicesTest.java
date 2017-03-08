@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.fail;
 
 /**
  *
  * @author jacques-antoine
  */
-public class HttpConnectTest {
-    
-    public HttpConnectTest() {
+public class MSServicesTest
+{
+
+    public MSServicesTest()
+    {
     }
     
     @BeforeClass
@@ -38,18 +40,13 @@ public class HttpConnectTest {
     }
 
     /**
-     * Test of httpConnect method, of class HttpConnect.
+     * Test of renewAccessToken method, of class MSCognitiveServices.
      */
-    @Test
-    public void testHttpConnect() {
-        System.out.println("httpConnect");
-        String method = "";
-        String url = "";
-        String[][] headers = null;
-        byte[] body = null;
-        byte[] expResult = null;
-        byte[] result = HttpConnect.httpConnect(method, url, headers, body);
-        assertArrayEquals(expResult, result);
+    //@Test
+    public void testRenewAccessToken() {
+        System.out.println("renewAccessToken");
+        String key1 = "";
+        MSCognitiveServices.renewAccessToken();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

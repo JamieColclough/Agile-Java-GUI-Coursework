@@ -1,4 +1,6 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
+
+import not.amazon.echo.ErrorHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -11,9 +13,10 @@ import java.net.URL;
  *
  * David Wakeling, 2017.
  */
-public class HttpConnect {
-    final static int TIMEOUT = 5000; /* ms  */
-    final static int BUFFSIZE = 4096; /* 4KB */
+class HttpConnect
+{
+    private final static int TIMEOUT = 5000; /* ms  */
+    private final static int BUFFSIZE = 4096; /* 4KB */
 
     public static byte[] httpConnect
             (String method
@@ -34,8 +37,8 @@ public class HttpConnect {
             conn.setDoOutput(true);
             conn.setConnectTimeout(TIMEOUT);
             conn.setReadTimeout(TIMEOUT);
-            for (int i = 0; i < headers.length; i++) {
-                conn.setRequestProperty(headers[i][0], headers[i][1]);
+            for (String[] header : headers) {
+                conn.setRequestProperty(header[0], header[1]);
             }
             conn.connect();
 
@@ -73,7 +76,7 @@ public class HttpConnect {
 
             return response;
         } catch (Exception ex) {
-            System.out.println(ex);
+            ErrorHandler.log(ex);
             System.exit(1);
             return null;
         }

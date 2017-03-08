@@ -1,4 +1,4 @@
-package not.amazon.echo;
+package not.amazon.echo.network;
 
 import java.util.Date;
 
@@ -6,8 +6,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 /**
- * Class containing common attributes for both SpeechRecognition and
- * Say related to Microsoft Cognitive Services.
+ * Class containing common attributes for both SpeechToText and
+ * TextToSpeech related to Microsoft Cognitive Services.
  * <p>
  * Go to:
  * https://www.microsoft.com/cognitive-services/en-us/speech-api
@@ -18,13 +18,16 @@ import static java.util.concurrent.TimeUnit.MINUTES;
  * @author Jacques-Antoine Portal 2017
  */
 
-public class MicrosoftCognitiveServices {
+class MSCognitiveServices
+{
+    public final static String GENDER = "Female";
+    public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
     final static String LANG = "en-US";
-    final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
-    final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
-    static long lastTime;
-    static String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
-    static String token = null;
+    static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
+    private final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
+    private final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
+    private static long lastTime;
+    private static String token = null;
   
    /*
     *final static String KEY2 = "228990e067f147bf842b70034065efc8";
