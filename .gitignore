@@ -1,11 +1,15 @@
+*.class
 *.iml
 .idea
 res/output.wav
 out/
-/nbproject/
+nbproject/
 build.xml
 manifest.mf
 res/textToSpeech.wav
 output.wav
 build/
-/bin/
+bin/
+.classpath
+.project
+
