@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Created-By: Team H
+Main-Class: not.amazon.echo.Main
