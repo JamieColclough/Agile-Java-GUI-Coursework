@@ -55,7 +55,7 @@ public class SpeechToText {
                 i = i + 1;
             }
         } else {
-            return null;
+            throw new NoSpeechException("No Speech Detected.");
         }
         return sResponse.substring(sResponse.indexOf("\"name\":\"") + 8, i);
     }
