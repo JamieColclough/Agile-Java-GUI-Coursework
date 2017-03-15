@@ -43,20 +43,11 @@ public class SpeechToText {
 
         //response includes all the JSON context, for this application we only need the actual thing that was said,
         // the following part of this method will find, and return the useful bit of response.
-        String sResponse;
         if (response == null) {
             throw new NoSpeechException("No Speech Detected.");
         }
-        sResponse = new String(response);
-        int i;
-        if (sResponse.contains("\"name\":\"")) {
-            i = sResponse.indexOf("\"name\":\"") + 9;       //+9 to skip all the characters in the string
-            while (sResponse.charAt(i) != '"') {
-                i = i + 1;
-            }
-        } else {
-            throw new NoSpeechException("No Speech Detected.");
-        }
-        return sResponse.substring(sResponse.indexOf("\"name\":\"") + 8, i);
+        String sResponse = new String(response);
+        sResponse = JSON_Parser.parse(sResponse,"\"name\":\""); 
+        return sResponse;
     }
 }
