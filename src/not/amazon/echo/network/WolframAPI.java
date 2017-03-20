@@ -1,4 +1,5 @@
 package not.amazon.echo.network;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -6,7 +7,7 @@ import java.net.URLEncoder;
  * Class containing static methods to send a query to the wolfram alpha server
  * Aspects of code taken from David Wakeling's Computational.java file
  * @author James Colclough 
- * @version 1.2
+ * @version 1.3
  */
 public class WolframAPI {
   final static String APPID   = "QWJHX6-P839WKWR8P";
@@ -28,21 +29,20 @@ public class WolframAPI {
     /**
      * Method for posting a question to the Wolfram Alpha server
      * @param query the question to be asked to the server
-     * @return the server's response to the query, in JSON format
+     * @return the server's response to the query, in a format ready to be spoken
      */
-    private static byte[] serverResponse(String query) {
+    private static byte[] serverResponse(String query) throws IOException {
         final String url    
-          = ( "http://api.wolframalpha.com/v2/query"
+          = ( "http://api.wolframalpha.com/v1/spoken"
             + "?appid=" + APPID
-            + "&input=" + urlEncode(query)
-            + "&output=JSON"
-            + "&includepodid=Result" //Narrows down parameters so only the json result is returned
+            + "&i=%22" + urlEncode(query)
             );
 
+        System.out.println(url);
         final String[][] headers = { {"Content-Length", "0"} };
 
         final byte[] body = new byte[0];
-        return HttpConnect.httpConnect("POST", url, headers, body); 
+        return HttpConnect.httpConnect("POST", url, headers, body);
     }
     
     /**
@@ -52,13 +52,12 @@ public class WolframAPI {
      */
     public static String answer(String query){
       
-        String answer = new String(serverResponse(query));     
-
-        answer = JSON_Parser.parse(answer, "\"plaintext\" : \"");
-         
-        if (answer == null){
+        try{
+            String answer = new String(serverResponse(query));
+            return answer;
+        }
+        catch(IOException e){
             return "Sorry, I was unable to find an answer to your question"; //In the case that no answer was returned from the server
         }
-        else{ return answer;}
     }
 }
