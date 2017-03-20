@@ -10,6 +10,7 @@ import org.junit.*;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,6 +20,8 @@ import static org.junit.Assert.assertEquals;
  */
 public class SpeechToTextTest
 {
+
+    byte[] speech;
 
     public SpeechToTextTest()
     {
@@ -33,7 +36,18 @@ public class SpeechToTextTest
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+        try {
+            String fileName = "res/eastwood.wav";
+            File file = new File(fileName);
+            FileInputStream fis = new FileInputStream(file);
+            DataInputStream dis = new DataInputStream(fis);
+            speech = new byte[(int) file.length()];
+            dis.readFully(speech);
+            dis.close();
+        }catch(Exception e){
+            throw(e);
+        }
     }
     
     @After
@@ -43,22 +57,16 @@ public class SpeechToTextTest
 
     /**
      * Test of speechToText method, of class SpeechToText.
+     * asserts that the text returned by speechToText
+     * is the expected text.
+     * uses eastwood.wav file in res!
      */
     @Test
     public void testSpeechRecognition() throws Exception {
-        //TODO needs commenting
-
         System.out.println("speechToText");
-        String fileName = "res/eastwood.wav";
-        File file = new File(fileName);
-        FileInputStream fis = new FileInputStream(file);
-        DataInputStream dis = new DataInputStream(fis);
-        byte[] buffer = new byte[(int) file.length()];
-        dis.readFully(buffer);
-        dis.close();
-        String exResult = "Do I feel lucky well do you punk?";
-        String text = SpeechToText.recognizeSpeech(buffer);
-        assertEquals(text, exResult);
+        String expected = "Do I feel lucky well Do ya punk?";
+        String actual = SpeechToText.recognizeSpeech(speech);
+        assertEquals(expected, actual);
     }
     
 }

@@ -5,16 +5,13 @@
  */
 package not.amazon.echo.network;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.*;
 
 import static org.junit.Assert.fail;
 
 /**
  *
- * @author jacques-antoine
+ * @author Jacques-Antoine Portal
  */
 public class MSServicesTest
 {
@@ -33,6 +30,7 @@ public class MSServicesTest
     
     @Before
     public void setUp() {
+        //somehow build a mock object
     }
     
     @After
@@ -41,14 +39,24 @@ public class MSServicesTest
 
     /**
      * Test of renewAccessToken method, of class MSCognitiveServices.
+     * assertion that the new token is not the same as before.
      */
     //@Test
     public void testRenewAccessToken() {
         System.out.println("renewAccessToken");
-        String key1 = "";
+        String oldToken = "";                       //put the old one here somehow
         MSCognitiveServices.renewAccessToken();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Assert.assertNotEquals("failed to renew AccessToken", oldToken, MSCognitiveServices.getAccessToken());
     }
-    
+
+    /**
+     * Test of getAccessToken method, of class MSCognitiveServices.
+     * case1: if there is no token, assert it is not null
+     * case2: if there is a valid token, assert it is equal to the expected one
+     * case3: if there is an invalid token, assert it is not equal to the old one.
+     */
+    public void testGetAccessToken(){
+        System.out.println("getAccessToken");
+        String expectedToken;
+    }
 }

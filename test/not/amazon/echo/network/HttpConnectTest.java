@@ -5,10 +5,7 @@
  */
 package not.amazon.echo.network;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.*;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
@@ -18,41 +15,56 @@ import static org.junit.Assert.fail;
  * @author jacques-antoine
  */
 public class HttpConnectTest {
-    
+    @Test
+    public void testHttpConnect1() throws Exception {
+
+    }
+
+    String method;
+    String url;
+    byte[] body;
+    String[][] headers;
+
     public HttpConnectTest() {
     }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
+
+
     @Before
     public void setUp() {
+        method = "POST";
+        url = "https://speech.platform.bing.com/synthesize";
+        body
+                = ("<speak version='1.0' xml:lang='en-us'>"
+                + "<voice xml:lang='" + MSCognitiveServices.LANG + "' "
+                + "xml:gender='" + MSCognitiveServices.GENDER + "' "
+                + "name='Microsoft Server Speech Text to Speech Voice"
+                + " (en-US, ZiraRUS)'>"
+                + "hey"
+                + "</voice></speak>").getBytes();
+        headers
+                = new String[][]{{"Content-Type", "application/ssml+xml"}
+                , {"Content-Length", String.valueOf(body.length)}
+                , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
+                , {"X-Microsoft-OutputFormat", MSCognitiveServices.FORMAT}
+        };
     }
     
     @After
     public void tearDown() {
+        //there is only one test really....
     }
 
     /**
      * Test of httpConnect method, of class HttpConnect.
+     * This test is a copy of the say method using httpConnect, and then
+     * it compares the result of httpConnect to the result of say().
      */
-    //@Test
+    @Test
     public void testHttpConnect() {
         System.out.println("httpConnect");
-        String method = "";
-        String url = "";
-        String[][] headers = null;
-        byte[] body = null;
-        byte[] expResult = null;
         byte[] result = HttpConnect.httpConnect(method, url, headers, body);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        byte[] expResult = TextToSpeech.say("hey");
+        assertArrayEquals("The result from using httpConnect is not correct.", expResult, result);
     }
     
 }
