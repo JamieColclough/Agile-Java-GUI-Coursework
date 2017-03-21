@@ -1,6 +1,7 @@
 package not.amazon.echo;
 
 import not.amazon.echo.gui.EchoGUI;
+import not.amazon.echo.sound.PlaySound;
 import not.amazon.echo.states.OnOff;
 import not.amazon.echo.states.State;
 
@@ -16,6 +17,7 @@ public class Echo implements IEcho
 
     private final EchoGUI gui;
     private State state;
+    private float volume = 1;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode.
@@ -26,7 +28,7 @@ public class Echo implements IEcho
     {
         this.state = new OnOff();
 
-        gui = new EchoGUI(event -> state.onButtonPressed(this));
+        gui = new EchoGUI(this);
     }
 
     /**
@@ -58,4 +60,33 @@ public class Echo implements IEcho
     public EchoGUI getGUI() {
         return gui;
     }
+
+    /**
+     * @author Alicia Daurignac
+     * Method that increases the volume by 10%.
+     */
+    @Override
+    public void increaseVolume() {
+        volume += 0.1;
+        if (volume > 1) volume = 1;
+        PlaySound.volume = volume;
+    }
+
+    /**
+     * @author Alicia Daurignac
+     * Method that decreases the volume by 10%.
+     */
+    @Override
+    public void decreaseVolume() {
+        volume -= 0.1;
+        if (volume < 0) volume = 0;
+        PlaySound.volume = volume;
+    }
+
+    @Override
+    public void onButtonPressed() {
+        state.onButtonPressed(this);
+    }
+
+
 }

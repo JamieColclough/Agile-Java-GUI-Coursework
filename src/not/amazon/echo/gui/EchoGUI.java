@@ -1,6 +1,8 @@
 package not.amazon.echo.gui;
 
 
+import not.amazon.echo.IEcho;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
@@ -27,9 +29,9 @@ public class EchoGUI extends JFrame implements IEchoGUI {
      * adds an on/off button to the JFrame.
      *
      * replaced internal eventListener with builtin ActionListener.
-     * @param button ActionListener for when the button is pressed
+     * @param echo IEcho that this GUI represents
      */
-    public EchoGUI(ActionListener button) {
+    public EchoGUI(IEcho echo) {
         setTitle("Echo");
         label = new JLabel(iconEchoOff);
         setContentPane(label);
@@ -39,13 +41,21 @@ public class EchoGUI extends JFrame implements IEchoGUI {
         turnDown.setBounds(60, 200, 40, 10);
         turnUp1.setBounds(155, 185, 10, 40);
         turnUp2.setBounds(140, 200, 40, 10);
+
+        ActionListener volumeDown = e -> echo.decreaseVolume();
+        ActionListener volumeUp = e -> echo.increaseVolume();
+
+        turnDown.addActionListener(volumeDown);
+        turnUp1.addActionListener(volumeUp);
+        turnUp2.addActionListener(volumeUp);
+
         add(btn1);
         add(turnDown);
         add(turnUp1);
         add(turnUp2);
 
         //When the button is pressed, fire our Button event
-        btn1.addActionListener(button);
+        btn1.addActionListener(event -> echo.onButtonPressed());
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
