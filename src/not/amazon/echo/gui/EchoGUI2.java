@@ -17,6 +17,9 @@ public class EchoGUI extends JFrame implements IEchoGUI {
     private final ImageIcon iconEchoAnswer = new ImageIcon("res/echoAnswer.jpg");
     private final ImageIcon iconEchoOff = new ImageIcon("res/echoOff.jpg");
     private final OnButton btn1 = new OnButton();
+	private final VolButton turnUp1 = new VolButton();
+	private final VolButton turnUp2 = new VolButton();
+	private final VolButton turnDown = new VolButton();
     private final JLabel label;
 
     /**
@@ -33,7 +36,13 @@ public class EchoGUI extends JFrame implements IEchoGUI {
         setLayout(null);
 
         btn1.setBounds(110, 150, 20, 20);
+		turnDown.setBounds(60, 200, 40, 10);
+		turnUp1.setBounds(155, 185, 10, 40);
+		turnUp2.setBounds(140, 200, 40, 10);
         add(btn1);
+		add(turnDown);
+		add(turnUp1);
+		add(turnUp2);
 		
         //When the button is pressed, fire our Button event
         btn1.addActionListener(button);
@@ -73,5 +82,13 @@ public class EchoGUI extends JFrame implements IEchoGUI {
         }
     }
 	
+	private class VolButton extends JButton{
+		final ImageIcon iconVolButton = new ImageIcon("res/MinusSign");
+		
+		VolButton() {
+			setIcon(iconVolButton);
+			setBorder(null);
+		}
+	}
 
 }
