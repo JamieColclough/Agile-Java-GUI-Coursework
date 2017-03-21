@@ -36,7 +36,6 @@ public class SpeechToText {
             } 
             
             answer = answer.substring(startIndex , endIndex + 1);//Only returns the answer String specified by the index
-            answer = answer.replace("\\n","").replace("\\t","");//Removes /n and /t parts of string that may be included in a query with multiple answers
             return answer;
         }
         throw new NoSpeechException("No Speech Detected.");
