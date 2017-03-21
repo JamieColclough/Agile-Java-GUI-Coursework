@@ -83,7 +83,7 @@ public class EchoGUI extends JFrame implements IEchoGUI {
     }
 
     private class VolButton extends JButton {
-        final ImageIcon iconVolButton = new ImageIcon("res/MinusSign");
+        final ImageIcon iconVolButton = new ImageIcon("res/Minus_sign.jpg");
 
         VolButton() {
             setIcon(iconVolButton);
