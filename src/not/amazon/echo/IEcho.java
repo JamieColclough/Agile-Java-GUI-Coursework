@@ -15,5 +15,9 @@ public interface IEcho {
 
     IEchoGUI getGUI();
 
+    void increaseVolume();
 
+    void decreaseVolume();
+
+    void onButtonPressed();
 }

@@ -43,4 +43,19 @@ public class MockEcho implements IEcho {
     public IEchoGUI getGUI() {
         return gui;
     }
+
+    @Override
+    public void increaseVolume() {
+
+    }
+
+    @Override
+    public void decreaseVolume() {
+
+    }
+
+    @Override
+    public void onButtonPressed() {
+
+    }
 }
