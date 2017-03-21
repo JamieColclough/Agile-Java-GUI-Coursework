@@ -20,30 +20,29 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 class MSCognitiveServices
 {
-    public final static String GENDER = "Female";
-    public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
-    final static String LANG = "en-US";
-    static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
-    private final static long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
-    private final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
+    public static final String GENDER = "Female";
+    public static final String FORMAT = "riff-16khz-16bit-mono-pcm";
+    public static String LANG = "en-US";
+    public static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
+    private static final long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
+    public final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
     private static long lastTime;
     private static String token = null;
   
    /*
     *final static String KEY2 = "228990e067f147bf842b70034065efc8";
     */
-
-    public static String getAccessToken() {
-        if (token == null || (new Date().getTime() - lastTime) > MAX_DURATION) {
+    static public String getAccessToken() {
+        if (token == null || ((new Date().getTime() - lastTime) > MAX_DURATION)) {
             renewAccessToken();
         }
         return token;
     }
 
     /*
-       * Renew an access token --- they expire after 10 minutes.
-       */
-    static void renewAccessToken() {
+    * Renew an access token --- they expire after 10 minutes.
+    */
+    static public void renewAccessToken() {
         final String method = "POST";
         final String url =
                 "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
@@ -53,7 +52,30 @@ class MSCognitiveServices
                 , {"Content-Length", String.valueOf(body.length)}
         };
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
-        token = new String(response);
-        lastTime = new Date().getTime();
+        String newToken = new String(response);
+        if (newToken != token){                 //otherwise lastTime should not be changed.
+            token = newToken;
+            lastTime = new Date().getTime();
+        }
     }
+
+
+    public void changeLanguage(String language){
+        this.LANG = language;
+    }
+
+
+    // any method following this is only used for testing
+
+    static public void changeLastTime(long aLastTime){
+        lastTime = aLastTime;
+    }
+
+    public static String getCurrentAccessToken(){
+        return token;
+    }
+
 }
+
+
+

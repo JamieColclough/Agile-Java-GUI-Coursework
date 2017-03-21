@@ -7,15 +7,20 @@ package not.amazon.echo.network;
 
 import org.junit.*;
 
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
  *
- * @author jacques-antoine
+ * @author Jacques-Antoine Portal.
  */
 public class TextToSpeechTest
 {
-
+    byte[] speech;
     public TextToSpeechTest()
     {
     }
@@ -29,7 +34,18 @@ public class TextToSpeechTest
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
+        try {
+            String fileName = "res/test.wav";
+            File file = new File(fileName);
+            FileInputStream fis = new FileInputStream(file);
+            DataInputStream dis = new DataInputStream(fis);
+            speech = new byte[(int) file.length()];
+            dis.readFully(speech);
+            dis.close();
+        }catch(Exception e){
+            throw(e);
+        }
     }
     
     @After
@@ -40,12 +56,15 @@ public class TextToSpeechTest
 
     /**
      * Test of say method, of class TextToSpeech.
+     * asserts expectedSound is equal to testSound
      */
     @Test
     public void testSay() {
         System.out.println("say");
-        String text = "Hi, This is a test for the TextToSpeech method";
-        TextToSpeech.say(text);
+        String text = "This is a test.";
+        byte[] expected = speech;                                                 //need to put the bytearray here.
+        byte[] actual = TextToSpeech.say(text);
+        assertArrayEquals("failure - byte arrays not same", expected, actual);
     }
     
 }
