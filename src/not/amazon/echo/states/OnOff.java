@@ -1,8 +1,10 @@
 package not.amazon.echo.states;
 
+import not.amazon.echo.ErrorHandler;
 import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.sound.PlaySound;
+import not.amazon.echo.sound.SoundException;
 
 /**
  * State representing the product in its On/Off phase
@@ -21,7 +23,11 @@ public class OnOff implements State
     public void onButtonPressed(IEcho echo) {
         //hello sound played when device turned on and advanced to listening state with
         //corresponding image
-        PlaySound.playSoundAsync("res/hello.wav");
+        try {
+            PlaySound.createClip("res/hello.wav").start();
+        } catch (SoundException e) {
+            ErrorHandler.log(e);
+        }
         echo.setState(new Listening());
     }
 
@@ -32,6 +38,10 @@ public class OnOff implements State
         echo.getGUI().setLights(EchoLights.OFF);
 
 		//Off image of echo will be shown when device is turned off followed by a goodbye sound
-		PlaySound.playSoundAsync("res/goodbye.wav");
+        try {
+            PlaySound.createClip("res/goodbye.wav").start();
+        } catch (SoundException e) {
+            ErrorHandler.log(e);
+        }
     }
 }
