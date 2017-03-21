@@ -16,39 +16,37 @@ public class PlaySound {
 
     public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    public static void playSound(String fileName) {
+    public static void playSound(InputStream input) throws SoundException {
         try {
             Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(input);
+            clip.open(inputStream);
+            clip.start();
+        } catch (Exception e) {
+            throw new SoundException("Encountered an error playing sound");
+        }
+    }
+
+    public static void playSound(String fileName) throws SoundException {
+        InputStream bufferedIn;
+        try {
             InputStream audioSrc = new FileInputStream(fileName);
             //add buffer for mark/reset support
-            InputStream bufferedIn = new BufferedInputStream(audioSrc);
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(bufferedIn);
-            clip.open(inputStream);
-            clip.start();
+            bufferedIn = new BufferedInputStream(audioSrc);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            throw new SoundException("Encountered an error playing sound");
         }
+        playSound(bufferedIn);
     }
 
 
-    public static void playSound(byte[] theThingToPlay) {
+    public static void playSound(byte[] data) throws SoundException {
+        InputStream bufferedIn;
         try {
-            Clip clip = AudioSystem.getClip();
-            InputStream bufferedIn = new ByteArrayInputStream(theThingToPlay);
-            AudioInputStream inputStream = AudioSystem.getAudioInputStream(bufferedIn);
-            clip.open(inputStream);
-            clip.start();
+            bufferedIn = new ByteArrayInputStream(data);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            throw new SoundException("Encountered an error playing sound");
         }
-    }
-
-
-    public static void playSoundAsync(String fileName) {
-        new Thread(() -> playSound(fileName)).start();
-    }
-
-    public static void playSoundAsync(byte[] bytes) {
-        new Thread(() -> playSound(bytes)).start();
+        playSound(bufferedIn);
     }
 }
