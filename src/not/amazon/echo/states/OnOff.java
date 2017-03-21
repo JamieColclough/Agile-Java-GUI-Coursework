@@ -24,7 +24,7 @@ public class OnOff implements State
         //hello sound played when device turned on and advanced to listening state with
         //corresponding image
         try {
-            PlaySound.createClip("res/hello.wav");
+            PlaySound.createClip("res/hello.wav").start();
         } catch (SoundException e) {
             ErrorHandler.log(e);
         }
@@ -39,7 +39,7 @@ public class OnOff implements State
 
 		//Off image of echo will be shown when device is turned off followed by a goodbye sound
         try {
-            PlaySound.createClip("res/goodbye.wav");
+            PlaySound.createClip("res/goodbye.wav").start();
         } catch (SoundException e) {
             ErrorHandler.log(e);
         }
