@@ -16,18 +16,18 @@ public class PlaySound {
 
     public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    public static void playSound(InputStream input) throws SoundException {
+    public static Clip createClip(InputStream input) throws SoundException {
         try {
             Clip clip = AudioSystem.getClip();
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(input);
             clip.open(inputStream);
-            clip.start();
+            return clip;
         } catch (Exception e) {
             throw new SoundException("Encountered an error playing sound");
         }
     }
 
-    public static void playSound(String fileName) throws SoundException {
+    public static Clip createClip(String fileName) throws SoundException {
         InputStream bufferedIn;
         try {
             InputStream audioSrc = new FileInputStream(fileName);
@@ -36,17 +36,17 @@ public class PlaySound {
         } catch (Exception e) {
             throw new SoundException("Encountered an error playing sound");
         }
-        playSound(bufferedIn);
+        return createClip(bufferedIn);
     }
 
 
-    public static void playSound(byte[] data) throws SoundException {
+    public static Clip createClip(byte[] data) throws SoundException {
         InputStream bufferedIn;
         try {
             bufferedIn = new ByteArrayInputStream(data);
         } catch (Exception e) {
             throw new SoundException("Encountered an error playing sound");
         }
-        playSound(bufferedIn);
+        return createClip(bufferedIn);
     }
 }

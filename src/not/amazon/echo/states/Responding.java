@@ -1,5 +1,6 @@
 package not.amazon.echo.states;
 
+import not.amazon.echo.ErrorHandler;
 import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.network.NoSpeechException;
@@ -7,6 +8,10 @@ import not.amazon.echo.network.SpeechToText;
 import not.amazon.echo.network.TextToSpeech;
 import not.amazon.echo.network.WolframAPI;
 import not.amazon.echo.sound.PlaySound;
+import not.amazon.echo.sound.SoundException;
+
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
 
 /**
  * State representing the phase in which the product responds to the user
@@ -40,10 +45,33 @@ public class Responding implements State
         echo.getGUI().setLights(EchoLights.RESPONDING);
         try {
             String text = SpeechToText.recognizeSpeech(data);
-            PlaySound.playSound(TextToSpeech.say(WolframAPI.answer(text)));
+            Clip clip = PlaySound.createClip(TextToSpeech.say(WolframAPI.answer(text)));
+            clip.addLineListener(e -> {
+                if (e.getType() == LineEvent.Type.STOP) {
+                    endResponding(echo);
+                }
+            });
+            clip.start();
         } catch (NoSpeechException exception) {
-            PlaySound.playSound(TextToSpeech.say("I'm sorry, I didn't hear what you said."));
+            try {
+                Clip clip = PlaySound.createClip(TextToSpeech.say("I'm sorry, I didn't hear what you said."));
+                clip.addLineListener(e -> {
+                    if (e.getType() == LineEvent.Type.STOP) {
+                        endResponding(echo);
+                    }
+                });
+                clip.start();
+            } catch (SoundException e) {
+                ErrorHandler.log(e);
+                endResponding(echo);
+            }
+        } catch (SoundException e) {
+            ErrorHandler.log(e);
+            endResponding(echo);
         }
+    }
+
+    private void endResponding(IEcho echo) {
         echo.setState(new OnOff());
     }
 }
