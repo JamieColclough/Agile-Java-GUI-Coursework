@@ -43,8 +43,6 @@ public class RecordSound {
             int bufferSize = FormatManager.SAMPLE_RATE * format.getFrameSize() / RATE;
             byte buffer[] = new byte[bufferSize];
 
-            System.out.println(format.isBigEndian());
-
             boolean recording = false;
             boolean listening = true;
             int timeoutCounter = 0;
@@ -78,7 +76,6 @@ public class RecordSound {
                     bos.write(buffer, 0, n);
                     recordingLength++;
                 }
-                System.out.println("RMS: " + rms);
             }
 
             return bos;
