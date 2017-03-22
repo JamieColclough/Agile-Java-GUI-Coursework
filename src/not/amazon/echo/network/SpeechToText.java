@@ -1,5 +1,6 @@
 package not.amazon.echo.network;
 
+import java.io.IOException;
 import java.util.UUID;
 
 /**
@@ -20,7 +21,7 @@ public class SpeechToText {
     /*
      * Recognize speech.
      */
-    public static String recognizeSpeech(byte[] body) throws NoSpeechException {
+    public static String recognizeSpeech(byte[] body) throws NoSpeechException, IOException {
         final String method = "POST";
         final String url
                 = ("https://speech.platform.bing.com/recognize"
@@ -39,6 +40,7 @@ public class SpeechToText {
                 , {"Content-Length", String.valueOf(body.length)}
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
         };
+
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         //response includes all the JSON context, for this application we only need the actual thing that was said,

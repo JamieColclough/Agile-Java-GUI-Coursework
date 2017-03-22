@@ -1,5 +1,6 @@
 package not.amazon.echo.network;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -34,7 +35,7 @@ public class WolframAPI {
      * @param query the question to be asked to the server
      * @return the server's response to the query, in JSON format
      */
-    private static byte[] serverResponse(String query) {
+    private static byte[] serverResponse(String query) throws IOException {
         final String url
                 = ("http://api.wolframalpha.com/v2/query"
                 + "?appid=" + APPID
@@ -55,7 +56,7 @@ public class WolframAPI {
      * @param query the Question to ask the server
      * @return the answer, in a string format ready to be used for textToSpeech and other programs
      */
-    public static String answer(String query) {
+    public static String answer(String query) throws IOException {
 
         String answer = new String(serverResponse(query));
 

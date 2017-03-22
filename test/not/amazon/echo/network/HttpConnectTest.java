@@ -5,29 +5,30 @@
  */
 package not.amazon.echo.network;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
 
 /**
  *
  * @author jacques-antoine
  */
 public class HttpConnectTest {
-    @Test
-    public void testHttpConnect1() throws Exception {
-
-    }
-
     String method;
     String url;
     byte[] body;
     String[][] headers;
-
     public HttpConnectTest() {
     }
 
+    @Test
+    public void testHttpConnect1() throws Exception {
+
+    }
 
     @Before
     public void setUp() {
@@ -60,7 +61,7 @@ public class HttpConnectTest {
      * it compares the result of httpConnect to the result of say().
      */
     @Test
-    public void testHttpConnect() {
+    public void testHttpConnect() throws IOException {
         System.out.println("httpConnect");
         byte[] result = HttpConnect.httpConnect(method, url, headers, body);
         byte[] expResult = TextToSpeech.say("hey");
