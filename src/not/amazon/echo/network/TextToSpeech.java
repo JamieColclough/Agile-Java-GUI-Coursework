@@ -1,5 +1,7 @@
 package not.amazon.echo.network;
 
+import java.io.IOException;
+
 /**
  * Text to speech conversion using Microsoft Cognitive Services.
  * <p>
@@ -19,7 +21,7 @@ public class TextToSpeech
     /*
      * Convert text to speech.
      */
-    public static byte[] say(String text) {
+    public static byte[] say(String text) throws IOException {
         final String method = "POST";
         final String url = "https://speech.platform.bing.com/synthesize";
         final byte[] body

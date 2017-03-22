@@ -12,6 +12,7 @@ import not.amazon.echo.sound.SoundException;
 
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
+import java.io.IOException;
 
 /**
  * State representing the phase in which the product responds to the user
@@ -61,11 +62,11 @@ public class Responding implements State
                     }
                 });
                 clip.start();
-            } catch (SoundException e) {
+            } catch (SoundException | IOException e) {
                 ErrorHandler.log(e);
                 endResponding(echo);
             }
-        } catch (SoundException e) {
+        } catch (SoundException | IOException e) {
             ErrorHandler.log(e);
             endResponding(echo);
         }
