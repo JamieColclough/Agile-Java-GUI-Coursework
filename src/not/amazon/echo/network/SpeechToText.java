@@ -18,6 +18,30 @@ import java.util.UUID;
 public class SpeechToText {
 //all attributes are inherited from Microsoft Cognitive Services.
 
+    /**
+     * Method to parse the JSON into a text format
+     * @author James Colclough
+     * @param answer the answer, in a JSON format
+     * @param searchKey the key in which the answer is held
+     * @return The answer In a string format
+     * @throws NoSpeechException
+     */
+    public static String parse_JSON(String answer, String searchKey ) throws NoSpeechException{
+        if (answer.contains(searchKey)) {
+
+           int startIndex = answer.indexOf(searchKey)+searchKey.length(); //Skips past the part of the text we don't need
+           int endIndex = startIndex;
+
+            while (answer.charAt(endIndex) != '"') {
+                endIndex++; //This is done to compute the index at which the answer ends
+            }
+
+            answer = answer.substring(startIndex , endIndex + 1);//Only returns the answer String specified by the index
+            return answer;
+        }
+        throw new NoSpeechException("No Speech Detected.");
+    }
+
     /*
      * Recognize speech.
      */
@@ -40,25 +64,15 @@ public class SpeechToText {
                 , {"Content-Length", String.valueOf(body.length)}
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
         };
-
         byte[] response = HttpConnect.httpConnect(method, url, headers, body);
 
         //response includes all the JSON context, for this application we only need the actual thing that was said,
         // the following part of this method will find, and return the useful bit of response.
-        String sResponse;
         if (response == null) {
             throw new NoSpeechException("No Speech Detected.");
         }
-        sResponse = new String(response);
-        int i;
-        if (sResponse.contains("\"name\":\"")) {
-            i = sResponse.indexOf("\"name\":\"") + 9;       //+9 to skip all the characters in the string
-            while (sResponse.charAt(i) != '"') {
-                i = i + 1;
-            }
-        } else {
-            throw new NoSpeechException("No Speech Detected.");
-        }
-        return sResponse.substring(sResponse.indexOf("\"name\":\"") + 8, i);
+        String sResponse = new String(response);
+        sResponse = parse_JSON(sResponse,"\"name\":\"");
+        return sResponse;
     }
 }

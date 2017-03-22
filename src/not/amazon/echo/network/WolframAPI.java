@@ -8,10 +8,10 @@ import java.net.URLEncoder;
  * Class containing static methods to send a query to the wolfram alpha server
  * Aspects of code taken from David Wakeling's Computational.java file
  * @author James Colclough 
- * @version 1.2
+ * @version 1.3
  */
 public class WolframAPI {
-    final static String APPID = "QWJHX6-P839WKWR8P";
+  final static String APPID   = "QWJHX6-P839WKWR8P";
 
     /**
      * Method used to encode a string using UTF-8,enabling it to be transfered along the Internet
@@ -22,9 +22,9 @@ public class WolframAPI {
     private static String urlEncode(String s) {
         try {
             return URLEncoder.encode(s, "utf-8");
-        } catch (UnsupportedEncodingException ex) {
+        } catch ( UnsupportedEncodingException ex ) {
             System.out.println(ex);
-            System.exit(1);
+            System.exit( 1 );
             return null;
         }
     }
@@ -33,18 +33,17 @@ public class WolframAPI {
      * Method for posting a question to the Wolfram Alpha server
      *
      * @param query the question to be asked to the server
-     * @return the server's response to the query, in JSON format
+     * @return the server's response to the query, in a format ready to be spoken
      */
     private static byte[] serverResponse(String query) throws IOException {
         final String url
-                = ("http://api.wolframalpha.com/v2/query"
-                + "?appid=" + APPID
-                + "&input=" + urlEncode(query)
-                + "&output=JSON"
-                + "&includepodid=Result" //Narrows down parameters so only the json result is returned
-        );
+          = ( "http://api.wolframalpha.com/v1/spoken"
+            + "?appid=" + APPID
+            + "&i=%22" + urlEncode(query)
+            );
 
-        final String[][] headers = {{"Content-Length", "0"}};
+        System.out.println(url);
+        final String[][] headers = { {"Content-Length", "0"} };
 
         final byte[] body = new byte[0];
         return HttpConnect.httpConnect("POST", url, headers, body);
@@ -59,17 +58,6 @@ public class WolframAPI {
     public static String answer(String query) throws IOException {
 
         String answer = new String(serverResponse(query));
-
-        if (answer.contains("\"plaintext\" : \"")) {
-            int i = answer.indexOf("\"plaintext\" : \"") + 15; //+15 as it skips past the text we already indexed onto the answer text
-            while (answer.charAt(i) != '"') {
-                i++; //This is done to compute the index at which the answer ends
-            }
-            answer = answer.substring(answer.indexOf("\"plaintext\" : \"") + 15, i);//Only returns the answer String specified by the index
-            answer = answer.replace("\\n", "").replace("\\t", "");//Removes /n and /t parts of string that may be included in a query with multiple answers
-            return answer;
-        } else {
-            return "Sorry, I was unable to find an answer to your question"; //In the case that no answer was returned from the server
-        }
+        return answer;
     }
 }
