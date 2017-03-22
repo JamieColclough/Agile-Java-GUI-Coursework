@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 /**
  *
@@ -59,7 +59,7 @@ public class TextToSpeechTest
      * asserts expectedSound is equal to testSound
      */
     @Test
-    public void testSay() {
+    public void testSay() throws IOException {
         System.out.println("say");
         String text = "This is a test.";
         byte[] expected = speech;                                                 //need to put the bytearray here.

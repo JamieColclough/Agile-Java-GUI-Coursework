@@ -4,6 +4,7 @@ package not.amazon.echo.sound;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
@@ -16,11 +17,15 @@ public class PlaySound {
 
     public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
+    public static float volume = 1f;
+
     public static Clip createClip(InputStream input) throws SoundException {
         try {
             Clip clip = AudioSystem.getClip();
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(input);
             clip.open(inputStream);
+            FloatControl control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            control.setValue((volume - 1f) * 40f);
             return clip;
         } catch (Exception e) {
             throw new SoundException("Encountered an error playing sound");

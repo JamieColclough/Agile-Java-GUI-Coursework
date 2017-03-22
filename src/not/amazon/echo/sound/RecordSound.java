@@ -12,20 +12,19 @@ import java.io.InputStream;
  * Derived by Adam Mitchell
  */
 public class RecordSound {
-    private static final int TIMER = 5;     /* secs */
+    private static final int RATE = 5;
+    private static final int TIMEOUT = 3;
+    private static final int MIN_QUERY = 5;
+    private static final float RMS_THRESH = 0.025f;
 
     /*
      * Set up stream.
      */
-    private static AudioInputStream setupStream() {
+    private static TargetDataLine setupLine(AudioFormat af) {
         try {
-            AudioFormat af = FormatManager.getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, af);
             TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
-            AudioInputStream stm = new AudioInputStream(line);
-            line.open(af);
-            line.start();
-            return stm;
+            return line;
         } catch (Exception ex) {
             ErrorHandler.log(ex);
             System.exit(1);
@@ -40,15 +39,42 @@ public class RecordSound {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            int bufferSize = FormatManager.SAMPLE_RATE * stm.getFormat().getFrameSize();
+            AudioFormat format = stm.getFormat();
+            int bufferSize = FormatManager.SAMPLE_RATE * format.getFrameSize() / RATE;
             byte buffer[] = new byte[bufferSize];
 
-            for (int counter = TIMER; counter > 0; counter--) {
+            boolean recording = false;
+            boolean listening = true;
+            int timeoutCounter = 0;
+            int recordingLength = 0;
+
+            while (listening) {
                 int n = stm.read(buffer, 0, buffer.length);
-                if (n > 0) {
-                    bos.write(buffer, 0, n);
+                if (n <= 0) break;
+                float[] samples = convertToSamples(buffer, format);
+                float rms = calculateRMS(samples);
+                //float peak = calculatePeak(samples);
+
+                if (rms > RMS_THRESH) {
+                    timeoutCounter = 0;
+                    recording = true;
                 } else {
-                    break;
+                    if (recording) {
+                        timeoutCounter++;
+                        if (timeoutCounter >= TIMEOUT) {
+                            recording = false;
+                            if (recordingLength >= MIN_QUERY) { // success
+                                listening = false;
+                            } else {
+                                recordingLength = 0;
+                                bos.reset(); // discard the current recording
+                            }
+                        }
+                    }
+                }
+                if (recording) {
+                    bos.write(buffer, 0, n);
+                    recordingLength++;
                 }
             }
 
@@ -58,6 +84,48 @@ public class RecordSound {
             System.exit(1);
             return null;
         }
+    }
+
+    private static float[] convertToSamples(byte[] buffer, AudioFormat format) {
+        int max = 0;
+
+        float[] samples = new float[buffer.length / 2];
+        for (int i = 0; i < buffer.length; i += 2) {
+            int hiByte = (buffer[i]);
+            int loByte = (buffer[i + 1]);
+            short shortVal = (short) hiByte;
+            shortVal = (short) ((shortVal << 8) | (byte) loByte);
+            samples[i / 2] = (float) shortVal / Short.MAX_VALUE;
+        } // for
+
+        return samples;
+    } // calculateLevel
+
+    private static float calculateRMS(float[] samples) {
+        float sum = 0f;
+        for (int i = 0; i < samples.length; i++) {
+            sum += samples[i];
+        }
+
+        float average = samples.length > 0 ? sum / (float) samples.length : 0f;
+
+        float sumMeanSquare = 0f;
+        for (int i = 0; i < samples.length; i++) {
+            sumMeanSquare += (float) Math.pow(samples[i] - average, 2);
+        }
+
+        float averageMeanSquare = sumMeanSquare / (float) samples.length;
+
+        return (float) Math.sqrt(averageMeanSquare);
+    }
+
+    private static float calculatePeak(float[] samples) {
+        float max = 0f;
+        for (int i = 0; i < samples.length; i++) {
+            float a = Math.abs(samples[i]);
+            if (a > max) max = a;
+        }
+        return max;
     }
 
     private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
@@ -76,8 +144,16 @@ public class RecordSound {
         return output;
     }
 
-    public static byte[] recordSoundData() {
-        return formatStream(readStream(setupStream())).toByteArray();
+    public static byte[] recordSoundData() throws LineUnavailableException {
+        AudioFormat af = FormatManager.getAudioFormat();
+        TargetDataLine line = setupLine(af);
+        AudioInputStream stm = new AudioInputStream(line);
+        line.open(af);
+        line.start();
+        ByteArrayOutputStream bos = readStream(stm);
+        line.stop();
+        line.close();
+        return formatStream(bos).toByteArray();
     }
 }
 

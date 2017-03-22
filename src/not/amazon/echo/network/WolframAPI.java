@@ -1,4 +1,5 @@
 package not.amazon.echo.network;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,9 +12,10 @@ import java.net.URLEncoder;
  */
 public class WolframAPI {
   final static String APPID   = "QWJHX6-P839WKWR8P";
-  
+
     /**
      * Method used to encode a string using UTF-8,enabling it to be transfered along the Internet
+     *
      * @param s the String which is to be encoded
      * @return the encoded String
      */
@@ -22,17 +24,19 @@ public class WolframAPI {
             return URLEncoder.encode(s, "utf-8");
         } catch ( UnsupportedEncodingException ex ) {
             System.out.println(ex);
-            System.exit( 1 ); return null;
+            System.exit( 1 );
+            return null;
         }
-    } 
-  
+    }
+
     /**
      * Method for posting a question to the Wolfram Alpha server
+     *
      * @param query the question to be asked to the server
      * @return the server's response to the query, in a format ready to be spoken
      */
     private static byte[] serverResponse(String query) throws IOException {
-        final String url    
+        final String url
           = ( "http://api.wolframalpha.com/v1/spoken"
             + "?appid=" + APPID
             + "&i=%22" + urlEncode(query)
@@ -44,20 +48,16 @@ public class WolframAPI {
         final byte[] body = new byte[0];
         return HttpConnect.httpConnect("POST", url, headers, body);
     }
-    
+
     /**
      * Method for taking the server response and converting it into a format that can be used by the echo
+     *
      * @param query the Question to ask the server
      * @return the answer, in a string format ready to be used for textToSpeech and other programs
      */
-    public static String answer(String query){
-      
-        try{
-            String answer = new String(serverResponse(query));
-            return answer;
-        }
-        catch(IOException e){
-            return "Sorry, I was unable to find an answer to your question"; //In the case that no answer was returned from the server
-        }
+    public static String answer(String query) throws IOException {
+
+        String answer = new String(serverResponse(query));
+        return answer;
     }
 }
