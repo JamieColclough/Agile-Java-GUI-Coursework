@@ -12,9 +12,9 @@ import java.io.InputStream;
  * Derived by Adam Mitchell
  */
 public class RecordSound {
-    private static final int TIMER = 5;     /* secs */
     private static final int RATE = 5;
-    private static final int TIMEOUT = 2;
+    private static final int TIMEOUT = 3;
+    private static final int MIN_QUERY = 5;
     private static final float RMS_THRESH = 0.025f;
 
     /*
@@ -45,20 +45,40 @@ public class RecordSound {
 
             System.out.println(format.isBigEndian());
 
-            //boolean recording;
-            //boolean finished = false;
+            boolean recording = false;
+            boolean listening = true;
+            int timeoutCounter = 0;
+            int recordingLength = 0;
 
-            for (int counter = TIMER * RATE; counter > 0; counter--) {
+            while (listening) {
                 int n = stm.read(buffer, 0, buffer.length);
+                if (n <= 0) break;
                 float[] samples = convertToSamples(buffer, format);
                 float rms = calculateRMS(samples);
-                float peak = calculatePeak(samples);
-                System.out.println("RMS: " + rms + " Peak: " + peak);
-                if (n > 0) {
-                    bos.write(buffer, 0, n);
+                //float peak = calculatePeak(samples);
+
+                if (rms > RMS_THRESH) {
+                    timeoutCounter = 0;
+                    recording = true;
                 } else {
-                    break;
+                    if (recording) {
+                        timeoutCounter++;
+                        if (timeoutCounter >= TIMEOUT) {
+                            recording = false;
+                            if (recordingLength >= MIN_QUERY) { // success
+                                listening = false;
+                            } else {
+                                recordingLength = 0;
+                                bos.reset(); // discard the current recording
+                            }
+                        }
+                    }
                 }
+                if (recording) {
+                    bos.write(buffer, 0, n);
+                    recordingLength++;
+                }
+                System.out.println("RMS: " + rms);
             }
 
             return bos;
