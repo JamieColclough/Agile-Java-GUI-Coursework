@@ -41,8 +41,7 @@ public class WolframAPI {
                 + "?appid=" + APPID
                 + "&i=" + urlEncode(query)
         );
-
-        System.out.println(url);
+        
         final String[][] headers = {{"Content-Length", "0"}};
 
         final byte[] body = new byte[0];
@@ -55,9 +54,13 @@ public class WolframAPI {
      * @param query the Question to ask the server
      * @return the answer, in a string format ready to be used for textToSpeech and other programs
      */
-    public static String answer(String query) throws IOException {
-
-        String answer = new String(serverResponse(query));
-        return answer;
+    public static String answer(String query){
+        try{
+            String answer = new String(serverResponse(query));
+            return answer;
+        }
+        catch(IOException e){
+            return "Sory, I could not find an answer to your question";
+        }
     }
 }
