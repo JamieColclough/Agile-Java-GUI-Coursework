@@ -39,7 +39,7 @@ public class WolframAPI {
         final String url
                 = ("http://api.wolframalpha.com/v1/spoken"
                 + "?appid=" + APPID
-                + "&i=%22" + urlEncode(query)
+                + "&i=" + urlEncode(query)
         );
 
         System.out.println(url);

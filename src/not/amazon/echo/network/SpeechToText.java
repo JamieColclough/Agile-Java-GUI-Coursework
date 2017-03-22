@@ -37,7 +37,7 @@ public class SpeechToText {
                 endIndex++; //This is done to compute the index at which the answer ends
             }
 
-            answer = answer.substring(startIndex, endIndex + 1);//Only returns the answer String specified by the index
+            answer = answer.substring(startIndex, endIndex);//Only returns the answer String specified by the index
             return answer;
         }
         throw new NoSpeechException("No Speech Detected.");

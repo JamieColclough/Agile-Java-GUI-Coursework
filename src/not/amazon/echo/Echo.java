@@ -69,7 +69,7 @@ public class Echo implements IEcho
     public void increaseVolume() {
         volume += 0.1;
         if (volume > 1) volume = 1;
-        PlaySound.volume = volume;
+        PlaySound.setVolume(volume);
     }
 
     /**
@@ -80,7 +80,7 @@ public class Echo implements IEcho
     public void decreaseVolume() {
         volume -= 0.1;
         if (volume < 0) volume = 0;
-        PlaySound.volume = volume;
+        PlaySound.setVolume(volume);
     }
 
     @Override
