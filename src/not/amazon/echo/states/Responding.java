@@ -72,6 +72,6 @@ public class Responding implements State
     }
 
     private void endResponding(IEcho echo) {
-        echo.setState(new OnOff());
+        echo.setState(new Listening());
     }
 }
