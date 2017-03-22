@@ -40,11 +40,14 @@ public class RecordSound {
         try {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            int bufferSize = FormatManager.SAMPLE_RATE * stm.getFormat().getFrameSize();
+            AudioFormat format = stm.getFormat();
+            int bufferSize = FormatManager.SAMPLE_RATE * format.getFrameSize();
             byte buffer[] = new byte[bufferSize];
 
             for (int counter = TIMER; counter > 0; counter--) {
                 int n = stm.read(buffer, 0, buffer.length);
+                //TODO call this
+                //float rms = detectRMS(buffer, format);
                 if (n > 0) {
                     bos.write(buffer, 0, n);
                 } else {
@@ -58,6 +61,28 @@ public class RecordSound {
             System.exit(1);
             return null;
         }
+    }
+
+    private static float detectRMS(byte buffer[], AudioFormat format) {
+        float rms = 0f;
+
+        int frameSize = format.getFrameSize();
+        boolean isBigEndian = format.isBigEndian();
+        for (int i = 0; i < buffer.length; i += frameSize) {
+            //only works for PCM signed
+            long sample = 0;
+            for (int j = 0; j < frameSize; j++) {
+                // decode bytes into a single sample
+                // & 0xff masks the byte to avoid sign extension when byte is cast to int
+                if (isBigEndian) {
+                    sample = sample | ((buffer[i + j] & 0xffL) << ((frameSize - j) * 8L));
+                } else {
+                    sample = sample | ((buffer[i + j] & 0xffL) << (j * 8L));
+                }
+            }
+        }
+
+        return rms;
     }
 
     private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
