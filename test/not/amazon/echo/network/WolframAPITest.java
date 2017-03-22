@@ -23,8 +23,8 @@ public class WolframAPITest {
      */
     @Test
     public void testAnswerCorrect() {
-        query = "What is 2+2?";
-        expectedResult = "4";
+        query = "What is 2 + 2?";
+        expectedResult = "The answer is 4";
         testResult = WolframAPI.answer(query);
         assertEquals(expectedResult, testResult);
     }

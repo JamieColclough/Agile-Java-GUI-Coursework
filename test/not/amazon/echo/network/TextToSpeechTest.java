@@ -21,39 +21,18 @@ import static org.junit.Assert.*;
 public class TextToSpeechTest
 {
     byte[] speech;
-    public TextToSpeechTest()
-    {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
     public void setUp() throws IOException {
-        try {
-            String fileName = "res/test.wav";
-            File file = new File(fileName);
-            FileInputStream fis = new FileInputStream(file);
-            DataInputStream dis = new DataInputStream(fis);
-            speech = new byte[(int) file.length()];
-            dis.readFully(speech);
-            dis.close();
-        }catch(Exception e){
-            throw(e);
-        }
+        String fileName = "res/test.wav";
+        File file = new File(fileName);
+        FileInputStream fis = new FileInputStream(file);
+        DataInputStream dis = new DataInputStream(fis);
+        speech = new byte[(int) file.length()];
+        dis.readFully(speech);
+        dis.close();
     }
     
-    @After
-    public void tearDown() {
-    }
-
-
-
     /**
      * Test of say method, of class TextToSpeech.
      * asserts expectedSound is equal to testSound
@@ -62,7 +41,7 @@ public class TextToSpeechTest
     public void testSay() {
         System.out.println("say");
         String text = "This is a test.";
-        byte[] expected = speech;                                                 //need to put the bytearray here.
+        byte[] expected = speech;  //need to put the bytearray here.
         byte[] actual = TextToSpeech.say(text);
         assertArrayEquals("failure - byte arrays not same", expected, actual);
     }

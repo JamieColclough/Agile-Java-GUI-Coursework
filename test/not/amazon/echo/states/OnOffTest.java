@@ -3,7 +3,6 @@ package not.amazon.echo.states;
 import not.amazon.echo.MockEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.gui.MockEchoGUI;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -30,17 +29,6 @@ public class OnOffTest {
         onOff = new OnOff();
         mockEchoGUI = new MockEchoGUI();
         mockEcho = new MockEcho(mockEchoGUI);
-
-    }
-
-    /**
-     * Tears down the test.
-     *
-     * @throws Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     /**
@@ -50,8 +38,7 @@ public class OnOffTest {
      */
     @Test
     public void testToString() throws Exception {
-        assertEquals(onOff.toString(), "On/Off");
-
+        assertEquals( "On/Off",onOff.toString());
     }
 
     /**
@@ -63,8 +50,7 @@ public class OnOffTest {
     @Test
     public void testOnButtonPressed() throws Exception {
         onOff.onButtonPressed(mockEcho);
-        assertEquals(mockEcho.currentState().getClass(), Listening.class);
-
+        assertEquals(Listening.class,mockEcho.currentState().getClass());
     }
 
     /**
@@ -77,6 +63,5 @@ public class OnOffTest {
     public void testOnEnterState() throws Exception {
         onOff.onEnterState(mockEcho);
         assertEquals(mockEchoGUI.currentLights, EchoLights.OFF);
-
     }
 }

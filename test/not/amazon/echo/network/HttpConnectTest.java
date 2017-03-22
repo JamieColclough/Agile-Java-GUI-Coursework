@@ -8,26 +8,17 @@ package not.amazon.echo.network;
 import org.junit.*;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
 
 /**
  *
  * @author jacques-antoine
  */
 public class HttpConnectTest {
-    @Test
-    public void testHttpConnect1() throws Exception {
-
-    }
 
     String method;
     String url;
     byte[] body;
     String[][] headers;
-
-    public HttpConnectTest() {
-    }
-
 
     @Before
     public void setUp() {
@@ -47,11 +38,6 @@ public class HttpConnectTest {
                 , {"Authorization", "Bearer " + MSCognitiveServices.getAccessToken()}
                 , {"X-Microsoft-OutputFormat", MSCognitiveServices.FORMAT}
         };
-    }
-    
-    @After
-    public void tearDown() {
-        //there is only one test really....
     }
 
     /**
