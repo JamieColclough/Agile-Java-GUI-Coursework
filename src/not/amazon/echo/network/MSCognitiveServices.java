@@ -1,5 +1,6 @@
 package not.amazon.echo.network;
 
+import java.io.IOException;
 import java.util.Date;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -22,10 +23,10 @@ class MSCognitiveServices
 {
     public static final String GENDER = "Female";
     public static final String FORMAT = "riff-16khz-16bit-mono-pcm";
-    public static String LANG = "en-US";
     public static final String appID = "D4D52672-91D7-4C74-8AD8-42B1D98141A5";
-    private static final long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
     public final static String KEY1 = "b47cc7cb3a1d43ce85d798978a6d97b2";
+    private static final long MAX_DURATION = MILLISECONDS.convert(9, MINUTES);
+    public static String LANG = "en-US";
     private static long lastTime;
     private static String token = null;
   
@@ -51,7 +52,12 @@ class MSCognitiveServices
                 = {{"Ocp-Apim-Subscription-Key", KEY1}
                 , {"Content-Length", String.valueOf(body.length)}
         };
-        byte[] response = HttpConnect.httpConnect(method, url, headers, body);
+        byte[] response = new byte[0];
+        try {
+            response = HttpConnect.httpConnect(method, url, headers, body);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         String newToken = new String(response);
         if (newToken != token){                 //otherwise lastTime should not be changed.
             token = newToken;
@@ -59,20 +65,19 @@ class MSCognitiveServices
         }
     }
 
-
-    public void changeLanguage(String language){
-        this.LANG = language;
+    static public void changeLastTime(long aLastTime){
+        lastTime = aLastTime;
     }
 
 
     // any method following this is only used for testing
 
-    static public void changeLastTime(long aLastTime){
-        lastTime = aLastTime;
-    }
-
     public static String getCurrentAccessToken(){
         return token;
+    }
+
+    public void changeLanguage(String language) {
+        this.LANG = language;
     }
 
 }
