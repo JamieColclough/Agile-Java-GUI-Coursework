@@ -13,60 +13,56 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  *
- * @author Jacques-Antoine Portal
+ * @author Jacques-Antoine Portal and James Colclough
  */
 public class SpeechToTextTest
 {
 
     byte[] speech;
-
-    public SpeechToTextTest()
-    {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    String testJSON = "\"irrelevantData\" : \"ww\" \"testData\" : \"tested\"";
+    String expected;
+    String actual;
     
     @Before
     public void setUp() throws IOException {
-        try {
-            String fileName = "res/eastwood.wav";
+            String fileName = "res/test.wav";
             File file = new File(fileName);
             FileInputStream fis = new FileInputStream(file);
             DataInputStream dis = new DataInputStream(fis);
             speech = new byte[(int) file.length()];
             dis.readFully(speech);
             dis.close();
-        }catch(Exception e){
-            throw(e);
-        }
     }
-    
-    @After
-    public void tearDown() {
-    }
-
 
     /**
      * Test of speechToText method, of class SpeechToText.
      * asserts that the text returned by speechToText
      * is the expected text.
-     * uses eastwood.wav file in res!
+     * uses test.wav file in res!
      */
     @Test
     public void testSpeechRecognition() throws Exception {
         System.out.println("speechToText");
-        String expected = "Do I feel lucky well Do ya punk?";
-        String actual = SpeechToText.recognizeSpeech(speech);
+        expected = "This is a test.";
+        actual = SpeechToText.recognizeSpeech(speech);
         assertEquals(expected, actual);
+    }
+    
+    /**
+     * Test of the parse_JSON method
+     * asserts that the correct segment of JSON is parsed and returned
+     */
+    @Test
+    public void testParse_JSON(){
+        try{
+        actual = SpeechToText.parse_JSON(testJSON,"\"testData\" : \"");
+        }catch(NoSpeechException e){fail();}
+        expected = "tested";
+        assertEquals(expected,actual);
     }
     
 }

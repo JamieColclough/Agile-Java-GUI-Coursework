@@ -29,7 +29,6 @@ public class ListeningTest {
         test = new Listening();
         mockEchoGUI = new MockEchoGUI();
         mockEcho = new MockEcho(mockEchoGUI);
-
     }
 
     /**
@@ -58,7 +57,5 @@ public class ListeningTest {
     public void onEnterStateTest() {
         test.onEnterState(mockEcho);
         assertEquals(mockEchoGUI.currentLights, EchoLights.LISTENING);
-
-
     }
 }
