@@ -11,7 +11,7 @@ import java.net.URLEncoder;
  * @version 1.3
  */
 public class WolframAPI {
-  final static String APPID   = "QWJHX6-P839WKWR8P";
+    final static String APPID = "QWJHX6-P839WKWR8P";
 
     /**
      * Method used to encode a string using UTF-8,enabling it to be transfered along the Internet
@@ -22,9 +22,9 @@ public class WolframAPI {
     private static String urlEncode(String s) {
         try {
             return URLEncoder.encode(s, "utf-8");
-        } catch ( UnsupportedEncodingException ex ) {
+        } catch (UnsupportedEncodingException ex) {
             System.out.println(ex);
-            System.exit( 1 );
+            System.exit(1);
             return null;
         }
     }
@@ -37,13 +37,13 @@ public class WolframAPI {
      */
     private static byte[] serverResponse(String query) throws IOException {
         final String url
-          = ( "http://api.wolframalpha.com/v1/spoken"
-            + "?appid=" + APPID
-            + "&i=%22" + urlEncode(query)
-            );
+                = ("http://api.wolframalpha.com/v1/spoken"
+                + "?appid=" + APPID
+                + "&i=%22" + urlEncode(query)
+        );
 
         System.out.println(url);
-        final String[][] headers = { {"Content-Length", "0"} };
+        final String[][] headers = {{"Content-Length", "0"}};
 
         final byte[] body = new byte[0];
         return HttpConnect.httpConnect("POST", url, headers, body);

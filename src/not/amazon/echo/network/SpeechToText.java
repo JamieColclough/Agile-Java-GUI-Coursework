@@ -20,23 +20,24 @@ public class SpeechToText {
 
     /**
      * Method to parse the JSON into a text format
-     * @author James Colclough
-     * @param answer the answer, in a JSON format
+     *
+     * @param answer    the answer, in a JSON format
      * @param searchKey the key in which the answer is held
      * @return The answer In a string format
      * @throws NoSpeechException
+     * @author James Colclough
      */
-    public static String parse_JSON(String answer, String searchKey ) throws NoSpeechException{
+    public static String parse_JSON(String answer, String searchKey) throws NoSpeechException {
         if (answer.contains(searchKey)) {
 
-           int startIndex = answer.indexOf(searchKey)+searchKey.length(); //Skips past the part of the text we don't need
-           int endIndex = startIndex;
+            int startIndex = answer.indexOf(searchKey) + searchKey.length(); //Skips past the part of the text we don't need
+            int endIndex = startIndex;
 
             while (answer.charAt(endIndex) != '"') {
                 endIndex++; //This is done to compute the index at which the answer ends
             }
 
-            answer = answer.substring(startIndex , endIndex + 1);//Only returns the answer String specified by the index
+            answer = answer.substring(startIndex, endIndex + 1);//Only returns the answer String specified by the index
             return answer;
         }
         throw new NoSpeechException("No Speech Detected.");
@@ -72,7 +73,7 @@ public class SpeechToText {
             throw new NoSpeechException("No Speech Detected.");
         }
         String sResponse = new String(response);
-        sResponse = parse_JSON(sResponse,"\"name\":\"");
+        sResponse = parse_JSON(sResponse, "\"name\":\"");
         return sResponse;
     }
 }
