@@ -2,6 +2,8 @@ package not.amazon.echo.network;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -22,7 +24,7 @@ public class WolframAPITest {
      * Test of answer method, by asking a random question and asserting it is the same as expected
      */
     @Test
-    public void testAnswerCorrect() {
+    public void testAnswerCorrect() throws IOException {
         query = "What is 2 + 2?";
         expectedResult = "The answer is 4";
         testResult = WolframAPI.answer(query);
@@ -32,7 +34,7 @@ public class WolframAPITest {
     /**
      * Test of answer method, by asking a question that has no answer and asserting the correct result is returned
      */
-    public void testAnswerInvalidQuestion() {
+    public void testAnswerInvalidQuestion() throws IOException {
         query = "wiehfiauhfiwe4782f";
         expectedResult = "Sorry, I was unable to find an answer to your question";
         testResult = WolframAPI.answer(query);
