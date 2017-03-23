@@ -14,7 +14,7 @@ public class PlaySound {
 
     public final static String FORMAT = "riff-16khz-16bit-mono-pcm";
 
-    private static FloatControl control;
+    public static FloatControl control;
 
     static {
         try {
