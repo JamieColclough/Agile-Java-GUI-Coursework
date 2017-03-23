@@ -13,8 +13,8 @@ import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
- *
- * @author jacques-antoine
+ * Tests of the httpConnect class
+ * @author Jacques-Antoine Portal
  */
 public class HttpConnectTest {
 

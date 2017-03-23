@@ -6,7 +6,7 @@
 package not.amazon.echo.network;
 import org.junit.*;
 /**
- *
+ * Tests for the MSCognitiveServices class
  * @author Jacques-Antoine Portal
  */
 public class MSCognitiveServicesTest
