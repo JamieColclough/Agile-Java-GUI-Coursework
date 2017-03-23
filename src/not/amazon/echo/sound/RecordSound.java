@@ -5,6 +5,7 @@ import not.amazon.echo.ErrorHandler;
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /*
@@ -16,6 +17,8 @@ public class RecordSound {
     private static final int TIMEOUT = 3;
     private static final int MIN_QUERY = 5;
     private static final float RMS_THRESH = 0.025f;
+
+    private static volatile boolean stopListeningFlag = false;
 
     /*
      * Set up stream.
@@ -35,55 +38,51 @@ public class RecordSound {
     /*
      * Read stream.
      */
-    private static ByteArrayOutputStream readStream(AudioInputStream stm) {
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    private static ByteArrayOutputStream readStream(AudioInputStream stm) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-            AudioFormat format = stm.getFormat();
-            int bufferSize = FormatManager.SAMPLE_RATE * format.getFrameSize() / RATE;
-            byte buffer[] = new byte[bufferSize];
+        AudioFormat format = stm.getFormat();
+        int bufferSize = FormatManager.SAMPLE_RATE * format.getFrameSize() / RATE;
+        byte buffer[] = new byte[bufferSize];
 
-            boolean recording = false;
-            boolean listening = true;
-            int timeoutCounter = 0;
-            int recordingLength = 0;
+        boolean recording = false;
+        boolean listening = true;
+        int timeoutCounter = 0;
+        int recordingLength = 0;
 
-            while (listening) {
-                int n = stm.read(buffer, 0, buffer.length);
-                if (n <= 0) break;
-                float[] samples = convertToSamples(buffer, format);
-                float rms = calculateRMS(samples);
-                //float peak = calculatePeak(samples);
+        while (listening && !stopListeningFlag) {
+            int n = stm.read(buffer, 0, buffer.length);
+            if (n <= 0) break;
+            float[] samples = convertToSamples(buffer, format);
+            float rms = calculateRMS(samples);
+            //float peak = calculatePeak(samples);
 
-                if (rms > RMS_THRESH) {
-                    timeoutCounter = 0;
-                    recording = true;
-                } else {
-                    if (recording) {
-                        timeoutCounter++;
-                        if (timeoutCounter >= TIMEOUT) {
-                            recording = false;
-                            if (recordingLength >= MIN_QUERY) { // success
-                                listening = false;
-                            } else {
-                                recordingLength = 0;
-                                bos.reset(); // discard the current recording
-                            }
+            if (rms > RMS_THRESH) {
+                timeoutCounter = 0;
+                recording = true;
+            } else {
+                if (recording) {
+                    timeoutCounter++;
+                    if (timeoutCounter >= TIMEOUT) {
+                        recording = false;
+                        if (recordingLength >= MIN_QUERY) { // success
+                            listening = false;
+                        } else {
+                            recordingLength = 0;
+                            bos.reset(); // discard the current recording
                         }
                     }
                 }
-                if (recording) {
-                    bos.write(buffer, 0, n);
-                    recordingLength++;
-                }
             }
-
-            return bos;
-        } catch (Exception ex) {
-            ErrorHandler.log(ex);
-            System.exit(1);
-            return null;
+            if (recording) {
+                bos.write(buffer, 0, n);
+                recordingLength++;
+            }
         }
+
+        if (stopListeningFlag) return null;
+
+        return bos;
     }
 
     private static float[] convertToSamples(byte[] buffer, AudioFormat format) {
@@ -139,12 +138,12 @@ public class RecordSound {
             AudioSystem.write(ais, AudioFileFormat.Type.WAVE, output);
         } catch (Exception ex) {
             ErrorHandler.log(ex);
-            System.exit(1);
         }
         return output;
     }
 
-    public static byte[] recordSoundData() throws LineUnavailableException {
+    public static byte[] recordSoundData() throws LineUnavailableException, IOException {
+        stopListeningFlag = false;
         AudioFormat af = FormatManager.getAudioFormat();
         TargetDataLine line = setupLine(af);
         AudioInputStream stm = new AudioInputStream(line);
@@ -153,7 +152,12 @@ public class RecordSound {
         ByteArrayOutputStream bos = readStream(stm);
         line.stop();
         line.close();
+        if (bos == null) return null;
         return formatStream(bos).toByteArray();
+    }
+
+    public static void stopListening() {
+        stopListeningFlag = true;
     }
 }
 

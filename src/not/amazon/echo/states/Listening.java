@@ -4,8 +4,6 @@ import not.amazon.echo.IEcho;
 import not.amazon.echo.gui.EchoLights;
 import not.amazon.echo.sound.RecordSound;
 
-import javax.sound.sampled.LineUnavailableException;
-
 /**
  * State representing the listening phase of the product
  * waiting until sound is detected
@@ -24,11 +22,7 @@ public class Listening implements State
     @Override
     public void onButtonPressed(IEcho echo)
     {
-        //Code involving listening for speech
-
-        //if(recordThread != null) recordThread.interrupt();
-
-        //echo.setState(new OnOff());
+        RecordSound.stopListening();
     }
 
     @Override
@@ -38,14 +32,16 @@ public class Listening implements State
         echo.getGUI().setLights(EchoLights.LISTENING);
 
         new Thread(() -> {
-            byte[] data = new byte[0];
             try {
-                data = RecordSound.recordSoundData();
-            } catch (LineUnavailableException e) {
+                byte[] data = RecordSound.recordSoundData();
+                if (data != null) {
+                    echo.setState(new Responding(data));
+                } else {
+                    echo.setState(new OnOff());
+                }
+            } catch (Exception e) {
                 echo.setState(new OnOff());
             }
-            echo.setState(new Responding(data));
-
         }).start();
 
     }
