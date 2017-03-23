@@ -36,7 +36,7 @@ public class PlaySound {
 
     /**
      * @author Alicia Daurignac
-     * Sets the volume of the global mixer
+     * Sets the volume of the speaker output Line
      */
     public static void setVolume(float volume) {
         if (volume > getSpeakerControl().getMaximum()) volume = getSpeakerControl().getMaximum();
