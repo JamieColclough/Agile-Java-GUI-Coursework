@@ -17,7 +17,6 @@ public class Echo implements IEcho
 
     private final EchoGUI gui;
     private State state;
-    private float volume = 1;
 
     /**
      * Constructor for stateMachine, default constructor as when turned on should always start in standby mode.
@@ -67,9 +66,7 @@ public class Echo implements IEcho
      */
     @Override
     public void increaseVolume() {
-        volume += 0.1;
-        if (volume > 1) volume = 1;
-        PlaySound.setVolume(volume);
+        PlaySound.setVolume(PlaySound.getVolume() + 0.1f);
     }
 
     /**
@@ -78,9 +75,7 @@ public class Echo implements IEcho
      */
     @Override
     public void decreaseVolume() {
-        volume -= 0.1;
-        if (volume < 0) volume = 0;
-        PlaySound.setVolume(volume);
+        PlaySound.setVolume(PlaySound.getVolume() - 0.1f);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package not.amazon.echo.sound;
 
 
+import not.amazon.echo.ErrorHandler;
+
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
@@ -16,14 +18,20 @@ public class PlaySound {
 
     public static FloatControl control;
 
-    static {
+    private static FloatControl getSpeakerControl() {
+        if (control != null) return control;
         try {
             Port port = (Port) AudioSystem.getLine(Port.Info.SPEAKER);
             port.open();
             control = (FloatControl) port.getControl(FloatControl.Type.VOLUME);
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
+        } catch (LineUnavailableException | IllegalArgumentException e) {
+            ErrorHandler.log(e);
         }
+        return control;
+    }
+
+    public static float getVolume() {
+        return getSpeakerControl().getValue();
     }
 
     /**
@@ -31,7 +39,9 @@ public class PlaySound {
      * Sets the volume of the global mixer
      */
     public static void setVolume(float volume) {
-        control.setValue(volume);
+        if (volume > getSpeakerControl().getMaximum()) volume = getSpeakerControl().getMaximum();
+        if (volume < getSpeakerControl().getMinimum()) volume = getSpeakerControl().getMinimum();
+        getSpeakerControl().setValue(volume);
     }
 
     public static Clip createClip(InputStream input) throws SoundException {
