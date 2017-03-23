@@ -24,6 +24,8 @@ import java.io.IOException;
 public class Responding implements State
 {
     private byte[] data;
+    private Clip currentSound;
+    private boolean stop = false;
 
     public Responding(byte[] data) {
         this.data = data;
@@ -37,18 +39,34 @@ public class Responding implements State
     @Override
     public void onButtonPressed(IEcho echo)
     {
-        //Can't press the button here, method performs no action        
+        stop = true;
+        if (currentSound != null) currentSound.stop();
     }
 
+    /**
+     * @param echo The context of the state.
+     * @author Adam Mitchell
+     * When the state is entered, attempt to use MS Cognitive and Wolfram Alpha to recognize and answer the speech.
+     */
     @Override
     public void onEnterState(IEcho echo) {
 
         echo.getGUI().setLights(EchoLights.RESPONDING);
         try {
             String text = SpeechToText.recognizeSpeech(data);
+            if (stop) {
+                endResponding(echo);
+                return;
+            }
             Clip clip = PlaySound.createClip(TextToSpeech.say(WolframAPI.answer(text)));
+            if (stop) {
+                endResponding(echo);
+                return;
+            }
+            currentSound = clip;
             clip.addLineListener(e -> {
                 if (e.getType() == LineEvent.Type.STOP) {
+                    clip.close();
                     endResponding(echo);
                 }
             });
@@ -56,8 +74,14 @@ public class Responding implements State
         } catch (NoSpeechException exception) {
             try {
                 Clip clip = PlaySound.createClip(TextToSpeech.say("I'm sorry, I didn't hear what you said."));
+                if (stop) {
+                    endResponding(echo);
+                    return;
+                }
+                currentSound = clip;
                 clip.addLineListener(e -> {
                     if (e.getType() == LineEvent.Type.STOP) {
+                        clip.close();
                         endResponding(echo);
                     }
                 });
@@ -73,6 +97,10 @@ public class Responding implements State
     }
 
     private void endResponding(IEcho echo) {
-        echo.setState(new Listening());
+        if (stop) {
+            echo.setState(new OnOff());
+        } else {
+            echo.setState(new Listening());
+        }
     }
 }

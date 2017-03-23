@@ -8,20 +8,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/*
- * Record sound. Original by David Wakeling, 2017.
- * Derived by Adam Mitchell
+/**
+ * Static procedures for recording the microphone
+ * Derived from David Wakeling, 2017.
+ * @author Adam Mitchell
  */
 public class RecordSound {
-    private static final int RATE = 5;
-    private static final int TIMEOUT = 3;
-    private static final int MIN_QUERY = 5;
-    private static final float RMS_THRESH = 0.025f;
+    private static final int RATE = 5; // Data chunks per second
+    private static final int TIMEOUT = 5; // Timeout of audio listening in chunks
+    private static final int MIN_QUERY = 5; // Minimum length of a recording in chunks (not including the timeout tail)
+    private static final float RMS_THRESH = 0.025f; // The RMS threshold
 
-    private static volatile boolean stopListeningFlag = false;
+    private static volatile boolean stopListeningFlag = false; // Flag to cancel the thread recording
 
-    /*
+    /**
      * Set up stream.
+     * @param af the AudioFormat to use when recording
+     * @return The TargetDataLine of the Microphone
      */
     private static TargetDataLine setupLine(AudioFormat af) {
         try {
@@ -35,8 +38,11 @@ public class RecordSound {
         }
     }
 
-    /*
-     * Read stream.
+    /**
+     * Record the microphone until a sound is detected or stopListening() has been called.
+     * @param stm the stream to read from
+     * @return a ByteArrayOutputStream containing the sample recorded
+     * @throws IOException when there is an error reading the stream
      */
     private static ByteArrayOutputStream readStream(AudioInputStream stm) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -53,20 +59,20 @@ public class RecordSound {
         while (listening && !stopListeningFlag) {
             int n = stm.read(buffer, 0, buffer.length);
             if (n <= 0) break;
-            float[] samples = convertToSamples(buffer, format);
+            float[] samples = convertToSamples(buffer);
+
             float rms = calculateRMS(samples);
-            //float peak = calculatePeak(samples);
 
             if (rms > RMS_THRESH) {
-                timeoutCounter = 0;
+                timeoutCounter = 0; // started detecting a sound
                 recording = true;
             } else {
                 if (recording) {
                     timeoutCounter++;
-                    if (timeoutCounter >= TIMEOUT) {
+                    if (timeoutCounter >= TIMEOUT) { // recording timeout from silence
                         recording = false;
-                        if (recordingLength >= MIN_QUERY) { // success
-                            listening = false;
+                        if (recordingLength >= MIN_QUERY + TIMEOUT) {
+                            listening = false; // success
                         } else {
                             recordingLength = 0;
                             bos.reset(); // discard the current recording
@@ -80,14 +86,18 @@ public class RecordSound {
             }
         }
 
-        if (stopListeningFlag) return null;
+        if (stopListeningFlag) return null; // recording was cancelled
 
         return bos;
     }
 
-    private static float[] convertToSamples(byte[] buffer, AudioFormat format) {
-        int max = 0;
-
+    /**
+     * Convert signed 16bit, bigEndian wav to raw float samples
+     *
+     * @param buffer the input data
+     * @return an array of samples
+     */
+    private static float[] convertToSamples(byte[] buffer) {
         float[] samples = new float[buffer.length / 2];
         for (int i = 0; i < buffer.length; i += 2) {
             int hiByte = (buffer[i]);
@@ -95,11 +105,16 @@ public class RecordSound {
             short shortVal = (short) hiByte;
             shortVal = (short) ((shortVal << 8) | (byte) loByte);
             samples[i / 2] = (float) shortVal / Short.MAX_VALUE;
-        } // for
+        }
 
         return samples;
-    } // calculateLevel
+    }
 
+    /**
+     * Calculates the RMS (root mean square) of an array of samples
+     * @param samples an array of floating point samples
+     * @return the RMS level of this sample array
+     */
     private static float calculateRMS(float[] samples) {
         float sum = 0f;
         for (int i = 0; i < samples.length; i++) {
@@ -118,6 +133,11 @@ public class RecordSound {
         return (float) Math.sqrt(averageMeanSquare);
     }
 
+    /**
+     * Find the maximum peak (largest magnitude) of an array of samples
+     * @param samples an array of floating point samples
+     * @return the peak of the sample array
+     */
     private static float calculatePeak(float[] samples) {
         float max = 0f;
         for (int i = 0; i < samples.length; i++) {
@@ -127,6 +147,11 @@ public class RecordSound {
         return max;
     }
 
+    /**
+     * Format a raw byte array stream into a WAV file byte stream
+     * @param bos The data to format
+     * @return A formatted WAV file of the input data
+     */
     private static ByteArrayOutputStream formatStream(ByteArrayOutputStream bos) {
         ByteArrayOutputStream output = null;
         try {
@@ -142,6 +167,12 @@ public class RecordSound {
         return output;
     }
 
+    /**
+     * Public method to record the microphone until speech is detected
+     * @return A byte array of detected speech in WAV format
+     * @throws LineUnavailableException when the microphone line is unavailable
+     * @throws IOException when an IO error occurs
+     */
     public static byte[] recordSoundData() throws LineUnavailableException, IOException {
         stopListeningFlag = false;
         AudioFormat af = FormatManager.getAudioFormat();
@@ -152,10 +183,13 @@ public class RecordSound {
         ByteArrayOutputStream bos = readStream(stm);
         line.stop();
         line.close();
-        if (bos == null) return null;
+        if (bos == null) return null; //recording was stopped
         return formatStream(bos).toByteArray();
     }
 
+    /**
+     * Stop all current listening and return null to indicate cancelled recording
+     */
     public static void stopListening() {
         stopListeningFlag = true;
     }

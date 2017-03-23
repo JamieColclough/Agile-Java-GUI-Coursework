@@ -19,7 +19,7 @@ Features
 
 This virtual Amazon Echo representation has a few basic features:
 
-* An on/off button (the echo cannot be turned off when it is talking).
+* An on/off button.
 * Volume controls.
 * Automatic speech detection.
 

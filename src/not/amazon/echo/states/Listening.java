@@ -19,15 +19,23 @@ public class Listening implements State
         return "Listening";
     }
 
+    /**
+     * @param echo The context of the state.
+     * @author Adam Mitchell
+     * When the button is pressed, cancel the recording
+     */
     @Override
-    public void onButtonPressed(IEcho echo)
-    {
+    public void onButtonPressed(IEcho echo) {
         RecordSound.stopListening();
     }
 
+    /**
+     * @param echo The context of the state.
+     * @author Adam Mitchell
+     * Attempt to detect speech and then send it to the responding state for a respones.
+     */
     @Override
-    public void onEnterState(IEcho echo)
-    {
+    public void onEnterState(IEcho echo) {
 
         echo.getGUI().setLights(EchoLights.LISTENING);
 
