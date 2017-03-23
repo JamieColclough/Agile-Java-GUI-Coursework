@@ -31,7 +31,9 @@ public class PlaySound {
     }
 
     public static float getVolume() {
-        return getSpeakerControl().getValue();
+        FloatControl ctrl = getSpeakerControl();
+        if (ctrl == null) return 0f;
+        return ctrl.getValue();
     }
 
     /**
@@ -39,9 +41,11 @@ public class PlaySound {
      * Sets the volume of the speaker output Line
      */
     public static void setVolume(float volume) {
-        if (volume > getSpeakerControl().getMaximum()) volume = getSpeakerControl().getMaximum();
-        if (volume < getSpeakerControl().getMinimum()) volume = getSpeakerControl().getMinimum();
-        getSpeakerControl().setValue(volume);
+        FloatControl ctrl = getSpeakerControl();
+        if (ctrl == null) return;
+        if (volume > ctrl.getMaximum()) volume = ctrl.getMaximum();
+        if (volume < ctrl.getMinimum()) volume = ctrl.getMinimum();
+        ctrl.setValue(volume);
     }
 
     public static Clip createClip(InputStream input) throws SoundException {
