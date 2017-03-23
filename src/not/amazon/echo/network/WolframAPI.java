@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-/*
+/**
  * Class containing static methods to send a query to the wolfram alpha server
  * Aspects of code taken from David Wakeling's Computational.java file
  * @author James Colclough 

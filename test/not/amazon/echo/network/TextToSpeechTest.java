@@ -16,7 +16,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertArrayEquals;
 
 /**
- *
+ * Tests for the Text to Speech class
  * @author Jacques-Antoine Portal.
  */
 public class TextToSpeechTest

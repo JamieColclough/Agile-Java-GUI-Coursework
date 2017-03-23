@@ -5,19 +5,15 @@ import java.util.UUID;
 
 /**
  * Speech to text conversion using Microsoft Cognitive Services.
- * <p>
  * Go to:
  * https://www.microsoft.com/cognitive-services/en-us/speech-api/documentation/overview
  * for more information.
- * <p>
  * Inspired from David Wakeling's SpeechRecognition code
  *
  * @author Jacques-Antoine Portal 2017
  */
 
 public class SpeechToText {
-//all attributes are inherited from Microsoft Cognitive Services.
-
     /**
      * Method to parse the JSON into a text format
      *
@@ -43,8 +39,16 @@ public class SpeechToText {
         throw new NoSpeechException("No Speech Detected.");
     }
 
-    /*
-     * Recognize speech.
+    /**
+     * Method recognising speech by setting up a http request to Microsoft Cognitive
+     * Services servers, sending the request, checking for a respond,
+     * converting the byte array given to a string, and finally using parse_JSON to get
+     * the relevant text.
+     * @param body the sound recorded by the Echo
+     * @return a String containing the recognised speech.
+     * @throws NoSpeechException
+     * @throws IOException
+     * @author Jacques-Antoine Portal
      */
     public static String recognizeSpeech(byte[] body) throws NoSpeechException, IOException {
         final String method = "POST";

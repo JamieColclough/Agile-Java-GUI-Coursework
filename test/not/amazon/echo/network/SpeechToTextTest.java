@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- *
+ * Tests for the SpeechToText class
  * @author Jacques-Antoine Portal and James Colclough
  */
 public class SpeechToTextTest

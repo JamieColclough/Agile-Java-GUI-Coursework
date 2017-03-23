@@ -4,11 +4,9 @@ import java.io.IOException;
 
 /**
  * Text to speech conversion using Microsoft Cognitive Services.
- * <p>
  * Go to:
  * http://www.microsoft.com/cognitive-services/en-us/speech-api
  * for more information.
- * <p>
  * Inspired from David Wakeling's TextToSpeech code
  *
  * @author Jacques-Antoine Portal 2017
@@ -18,8 +16,14 @@ public class TextToSpeech
 {
 
 
-    /*
-     * Convert text to speech.
+    /**
+     * Method synthesising speech by setting up a http request to Microsoft Cognitive
+     * Services servers, sending the request, and returning the sound byte array.
+     * the relevant text.
+     * @param text  the text that needs to be said
+     * @return byte array containing the sound.
+     * @throws IOException
+     * @Author Jacques-Antoine Portal
      */
     public static byte[] say(String text) throws IOException {
         final String method = "POST";
